@@ -24,7 +24,7 @@ IncuGateway/
 ├── README.md
 │
 ├── Programa/
-│   └── Proyecto/
+│   ├── Proyecto/
 │       ├── Program.cs
 │       ├── HttpServer.cs
 │       ├── MqttService.cs
@@ -44,7 +44,12 @@ IncuGateway/
 │       │
 │       ├── bin/
 │       └── obj/
-│
+|
+|   ├── packages/
+|       └── Librerías y dependencias de nanoFramework
+|
+|   └──Proyecto.slnx
+|
 └── Memoria/
     ├── index.html
     ├── ModbusCfg.txt
