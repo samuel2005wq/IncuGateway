@@ -1,0 +1,7 @@
+broker=broker.emqx.io
+port=1883
+user=
+password=
+topicPub=dent2026/grupoX/sensores
+topicSub=dent2026/grupoX/comandos
+reportTimeMs=5000

@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500&family=Exo+2:wght@300;400;600;800&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0e14;
+      --bg2: #0f1520;
+      --bg3: #141d2b;
+      --card: #111827;
+      --card2: #1a2438;
+      --border: #1e3a5f;
+      --border2: #2a4a70;
+      --accent: #00c8ff;
+      --accent2: #0084c8;
+      --warm: #ff8c00;
+      --warm2: #ffb347;
+      --green: #00e676;
+      --red: #ff4444;
+      --yellow: #ffd600;
+      --text: #e8f4fd;
+      --text2: #8baab8;
+      --text3: #4a6a7a;
+      --glow: 0 0 20px rgba(0, 200, 255, 0.25);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Exo 2', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: linear-gradient(rgba(0, 200, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 200, 255, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 220px;
+      background: var(--bg2);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+      padding: 0 0 20px 0;
+    }
+
+    .logo {
+      padding: 22px 20px 18px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 10px;
+    }
+
+    .logo h1 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .logo p {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      color: var(--text3);
+      letter-spacing: 1px;
+      margin-top: 2px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      margin: 2px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text2);
+      transition: all .2s;
+      letter-spacing: .5px;
+    }
+
+    .nav-item:hover {
+      background: var(--card2);
+      color: var(--text);
+    }
+
+    .nav-item.active {
+      background: linear-gradient(90deg, rgba(0, 200, 255, 0.15), transparent);
+      color: var(--accent);
+      border-left: 3px solid var(--accent);
+      margin-left: 10px;
+      padding-left: 17px;
+    }
+
+    .nav-icon {
+      font-size: 16px;
+      width: 20px;
+      text-align: center;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: blink 2s infinite;
+      margin-left: auto;
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: .3;
+      }
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .conn-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--green);
+    }
+
+    .conn-badge span {
+      color: var(--text3);
+    }
+
+    .main {
+      margin-left: 220px;
+      padding: 24px 28px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .page-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--text);
+    }
+
+    .page-title span {
+      color: var(--accent);
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--border2);
+      color: var(--text2);
+      background: var(--card);
+    }
+
+    .pill.live {
+      border-color: var(--green);
+      color: var(--green);
+      background: rgba(0, 230, 118, .08);
+    }
+
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .kpi {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      position: relative;
+      overflow: hidden;
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .kpi:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--glow);
+    }
+
+    .kpi::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+    }
+
+    .kpi.temp::before {
+      background: linear-gradient(90deg, var(--warm), var(--warm2));
+    }
+
+    .kpi.hum::before {
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+    }
+
+    .kpi.mqtt::before {
+      background: linear-gradient(90deg, var(--green), #00a854);
+    }
+
+    .kpi.modbus::before {
+      background: linear-gradient(90deg, var(--yellow), #e6b800);
+    }
+
+    .kpi-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      color: var(--text3);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .kpi-val {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 38px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .kpi.temp .kpi-val {
+      color: var(--warm);
+    }
+
+    .kpi.hum .kpi-val {
+      color: var(--accent);
+    }
+
+    .kpi.mqtt .kpi-val {
+      color: var(--green);
+      font-size: 28px;
+      margin-top: 4px;
+    }
+
+    .kpi.modbus .kpi-val {
+      color: var(--yellow);
+      font-size: 28px;
+      margin-top: 4px;
+    }
+
+    .kpi-unit {
+      font-size: 14px;
+      font-weight: 400;
+      margin-left: 2px;
+    }
+
+    .kpi-sub {
+      font-size: 10px;
+      color: var(--text3);
+      margin-top: 6px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .kpi-icon {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 32px;
+      opacity: .12;
+    }
+
+    .mid-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .chart-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      grid-column: span 2;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text2);
+    }
+
+    .badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(0, 200, 255, .1);
+      color: var(--accent);
+      border: 1px solid rgba(0, 200, 255, .2);
+    }
+
+    .chart-wrap {
+      position: relative;
+      height: 140px;
+    }
+
+    svg.chart {
+      width: 100%;
+      height: 100%;
+    }
+
+    .chart-line {
+      fill: none;
+      stroke: url(#lineGrad);
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .chart-area {
+      fill: url(#areaGrad);
+    }
+
+    .chart-dot {
+      fill: var(--warm);
+      stroke: var(--bg);
+      stroke-width: 2;
+    }
+
+    .log-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .log-list {
+      flex: 1;
+      overflow-y: auto;
+      max-height: 180px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+    }
+
+    .log-list::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    .log-list::-webkit-scrollbar-thumb {
+      background: var(--border2);
+      border-radius: 2px;
+    }
+
+    .log-entry {
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, .04);
+      display: grid;
+      grid-template-columns: auto auto 1fr;
+      gap: 8px;
+      align-items: start;
+    }
+
+    .log-time {
+      color: var(--text3);
+    }
+
+    .log-dir {
+      font-size: 9px;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-weight: 600;
+    }
+
+    .log-dir.pub {
+      background: rgba(0, 230, 118, .15);
+      color: var(--green);
+    }
+
+    .log-dir.sub {
+      background: rgba(0, 200, 255, .15);
+      color: var(--accent);
+    }
+
+    .log-msg {
+      color: var(--text2);
+      word-break: break-all;
+    }
+
+    .bot-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .reg-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .reg-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    .reg-table th {
+      font-size: 9px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text3);
+      font-weight: 600;
+      padding: 6px 8px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .reg-table td {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      padding: 7px 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, .04);
+      color: var(--text2);
+    }
+
+    .reg-table tr:hover td {
+      background: rgba(0, 200, 255, .04);
+      color: var(--text);
+    }
+
+    .reg-addr {
+      color: var(--accent) !important;
+    }
+
+    .reg-val {
+      color: var(--warm) !important;
+      font-weight: 500;
+    }
+
+    .reg-status {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green);
+    }
+
+    .cfg-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .cfg-group {
+      margin-bottom: 16px;
+    }
+
+    .cfg-group-title {
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cfg-group-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .cfg-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .cfg-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .cfg-label {
+      font-size: 9px;
+      color: var(--text3);
+      letter-spacing: .5px;
+    }
+
+    .cfg-input {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 7px 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text);
+      outline: none;
+      transition: border-color .2s;
+    }
+
+    .cfg-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(0, 200, 255, .1);
+    }
+
+    .cfg-input::placeholder {
+      color: var(--text3);
+    }
+
+    select.cfg-input {
+      cursor: pointer;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .btn {
+      padding: 9px 18px;
+      border-radius: 8px;
+      border: none;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      color: #000;
+      flex: 1;
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 0 16px rgba(0, 200, 255, .4);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--border2);
+      color: var(--text2);
+    }
+
+    .btn-secondary:hover {
+      background: var(--card2);
+      color: var(--text);
+    }
+
+    .btn-danger {
+      background: rgba(255, 68, 68, .15);
+      border: 1px solid rgba(255, 68, 68, .3);
+      color: var(--red);
+    }
+
+    .alert {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255, 140, 0, .08);
+      border: 1px solid rgba(255, 140, 0, .25);
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin-bottom: 20px;
+      font-size: 12px;
+      color: var(--warm2);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes alarmPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255,68,68,0); }
+      50%       { box-shadow: 0 0 0 6px rgba(255,68,68,0.35); }
+    }
+    @keyframes warnPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255,214,0,0); }
+      50%       { box-shadow: 0 0 0 6px rgba(255,214,0,0.30); }
+    }
+    #alarmCard.alarm-high { animation: alarmPulse 1.2s infinite; border-color: var(--red) !important; }
+    #alarmCard.alarm-low  { animation: alarmPulse 1.2s infinite; border-color: #2979ff !important; }
+    #alarmCard.alarm-warn { animation: warnPulse 1.8s infinite; border-color: var(--yellow) !important; }
+    #alarmCard.alarm-ok   { border-color: var(--green) !important; }
+
+    .kpi {
+      animation: fadeUp .4s ease both;
+    }
+
+    .kpi:nth-child(1) {
+      animation-delay: .05s;
+    }
+
+    .kpi:nth-child(2) {
+      animation-delay: .10s;
+    }
+
+    .kpi:nth-child(3) {
+      animation-delay: .15s;
+    }
+
+    .kpi:nth-child(4) {
+      animation-delay: .20s;
+    }
+  </style>
+</head>
+
+<body>
+
+  <aside class="sidebar">
+    <div class="logo">
+      <div style="font-size:22px;margin-bottom:4px">🥚</div>
+      <h1>IncuGateway</h1>
+      <p>MODBUS · MQTT · ESP32</p>
+    </div>
+    <nav>
+      <div class="nav-item active" onclick="showTab('dashboard',this)">
+        <span class="nav-icon">📊</span> Dashboard
+        <div class="status-dot"></div>
+      </div>
+      <div class="nav-item" onclick="showTab('registros',this)">
+        <span class="nav-icon">🗂️</span> Registros Modbus
+      </div>
+      <div class="nav-item" onclick="showTab('config',this)">
+        <span class="nav-icon">⚙️</span> Configuración
+      </div>
+      <div class="nav-item" onclick="showTab('log',this)">
+        <span class="nav-icon">📡</span> Log MQTT
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="conn-badge">
+        <div class="status-dot"></div>
+        <div>
+          <div id="ipDisplay">Conectando...</div>
+          <span id="espStatusText">ESP32 · nanoFramework</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="page-title" id="pageTitle">Dashboard <span>/ Monitoreo</span></div>
+      <div class="topbar-right">
+        <div class="pill live">● EN VIVO</div>
+        <div class="pill" id="clockEl">--:--:--</div>
+        <div class="pill">v1.0.0-nanoFW</div>
+      </div>
+    </div>
+
+    <div class="alert">
+      <span style="font-size:16px">ℹ️</span>
+      <span><strong>Modo de operación:</strong> Gateway INCUGATEWAY conectado a Modbus RTU, servidor HTTP y broker
+        MQTT.</span>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div class="tab-content active" id="tab-dashboard">
+      <div class="kpi-row">
+        <div class="kpi temp">
+          <div class="kpi-label">Temperatura</div>
+          <div class="kpi-val" id="tempVal">--<span class="kpi-unit">°C</span></div>
+          <div class="kpi-sub" id="tempSub">Leyendo...</div>
+          <div class="kpi-icon">🌡️</div>
+        </div>
+        <div class="kpi hum">
+          <div class="kpi-label">Humedad relativa</div>
+          <div class="kpi-val" id="humVal">--<span class="kpi-unit">%</span></div>
+          <div class="kpi-sub">Rango ideal: 55–70%</div>
+          <div class="kpi-icon">💧</div>
+        </div>
+        <div class="kpi mqtt">
+          <div class="kpi-label">Mensajes MQTT</div>
+          <div class="kpi-val" id="mqttCount">0</div>
+          <div class="kpi-sub">Publicados en sesión</div>
+          <div class="kpi-icon">📡</div>
+        </div>
+        <div class="kpi modbus">
+          <div class="kpi-label">Reg. Modbus leídos</div>
+          <div class="kpi-val" id="modbusCount">--</div>
+          <div class="kpi-sub" id="modbusSub">Esperando lectura...</div>
+          <div class="kpi-icon">🔌</div>
+        </div>
+      </div>
+
+      <div class="mid-row">
+        <div class="chart-card">
+          <div class="card-header">
+            <span class="card-title">Temperatura — Registro</span>
+            <span class="badge">REG 40001</span>
+          </div>
+          <div class="chart-wrap">
+            <svg class="chart" viewBox="0 0 560 140" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#ff8c00" />
+                  <stop offset="100%" stop-color="#ffb347" />
+                </linearGradient>
+                <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#ff8c00" stop-opacity=".25" />
+                  <stop offset="100%" stop-color="#ff8c00" stop-opacity="0" />
+                </linearGradient>
+              </defs>
+              <!-- Líneas de referencia alineadas con yTop=10, yBottom=130, rango 0-50°C -->
+              <!-- y = 130 - ((val / 50) * 120)  →  50°→10, 37.5°→40, 25°→70, 12.5°→100, 0°→130 -->
+              <line x1="30" y1="10"  x2="560" y2="10"  stroke="#1e3a5f" stroke-width="1" />
+              <line x1="30" y1="40"  x2="560" y2="40"  stroke="#1e3a5f" stroke-width="0.5" stroke-dasharray="3,4" />
+              <line x1="30" y1="70"  x2="560" y2="70"  stroke="#1e3a5f" stroke-width="1" />
+              <line x1="30" y1="100" x2="560" y2="100" stroke="#1e3a5f" stroke-width="0.5" stroke-dasharray="3,4" />
+              <line x1="30" y1="130" x2="560" y2="130" stroke="#1e3a5f" stroke-width="1" />
+              <!-- Banda rango recomendado incubadora: 37°C → y=18.8 ; 38°C → y=16.4  (muy estrecha, mejor 36-39) -->
+              <!-- 39°C → y = 130 - (39/50)*120 = 130 - 93.6 = 36.4 -->
+              <!-- 36°C → y = 130 - (36/50)*120 = 130 - 86.4 = 43.6 -->
+              <rect id="rangeBar" x="30" y="36" width="530" height="8"
+                fill="#00e676" fill-opacity="0.10" stroke="#00e676" stroke-opacity="0.30" stroke-width="0.5"/>
+              <!-- Etiqueta rango superior (38°C) -->
+              <text x="4" y="40" fill="#00e676" fill-opacity="0.7" font-size="7" font-family="JetBrains Mono">38°</text>
+              <!-- Etiqueta rango inferior (37°C) -->
+              <text x="4" y="47" fill="#00e676" fill-opacity="0.7" font-size="7" font-family="JetBrains Mono">36°</text>
+              <!-- Etiquetas de eje Y -->
+              <text id="chartMaxLabel" x="4" y="13"  fill="#4a6a7a" font-size="9" font-family="JetBrains Mono">50°</text>
+              <text id="chartMidLabel" x="4" y="73"  fill="#4a6a7a" font-size="9" font-family="JetBrains Mono">25°</text>
+              <text id="chartMinLabel" x="4" y="133" fill="#4a6a7a" font-size="9" font-family="JetBrains Mono">0°</text>
+              <path class="chart-area" id="chartArea" d="" />
+              <path class="chart-line" id="chartLine" d="" />
+              <circle class="chart-dot" id="chartDot" r="5" />
+            </svg>
+          </div>
+          <!-- Leyenda rango recomendado -->
+          <div style="display:flex;align-items:center;gap:6px;margin-top:6px;">
+            <div style="width:14px;height:8px;background:rgba(0,230,118,0.20);border:1px solid rgba(0,230,118,0.4);border-radius:2px;"></div>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#00e676;opacity:0.8;">Rango recomendado: 36–38 °C</span>
+          </div>
+        </div>
+
+        <div class="log-card">
+          <div class="card-header">
+            <span class="card-title">MQTT — Actividad</span>
+            <span class="badge" id="mqttBadge">0 msg</span>
+          </div>
+          <div class="log-list" id="miniLog">
+            <div class="log-entry">
+              <span class="log-time">--:--</span>
+              <span class="log-dir pub">SYS</span>
+              <span class="log-msg">Conectando con ESP32...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:180px 1fr;gap:16px;">
+        <div class="reg-card" id="alarmCard"
+          style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:140px;gap:8px;transition:all 0.4s;padding:14px 10px;">
+
+          <!-- Icono de estado -->
+          <div id="alarmIcon" style="font-size:28px;line-height:1;">🌡️</div>
+
+          <!-- Temperatura actual -->
+          <div style="display:flex;align-items:baseline;gap:3px;">
+            <span id="gaugeText" style="font-family:'Rajdhani',sans-serif;font-size:34px;font-weight:800;color:#ffb347;line-height:1;">--</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8baab8;">°C</span>
+          </div>
+
+          <!-- Barra de estado de temperatura -->
+          <div style="width:100%;background:var(--bg3);border-radius:4px;height:6px;overflow:hidden;">
+            <div id="alarmBar" style="height:6px;border-radius:4px;width:0%;background:#ff8c00;transition:width 0.6s,background 0.4s;"></div>
+          </div>
+
+          <!-- Mensaje de alarma -->
+          <div id="alarmMsg"
+            style="font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;letter-spacing:0.8px;text-align:center;color:#4a6a7a;text-transform:uppercase;line-height:1.4;min-height:24px;">
+            ESPERANDO DATOS...
+          </div>
+
+          <!-- Rango objetivo -->
+          <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#4a6a7a;text-align:center;">
+            Objetivo: <span style="color:#00e676;">36–38°C</span>
+          </div>
+        </div>
+
+        <div class="reg-card">
+          <div class="card-header">
+            <span class="card-title">Publicar comando Modbus</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;align-items:end;">
+            <div class="cfg-field">
+              <label class="cfg-label">Dirección reg.</label>
+              <input class="cfg-input" type="number" value="40001" id="cmdAddr" />
+            </div>
+            <div class="cfg-field">
+              <label class="cfg-label">Valor</label>
+              <input class="cfg-input" type="number" value="380" id="cmdVal" />
+            </div>
+            <div class="cfg-field">
+              <label class="cfg-label">Tópico MQTT</label>
+              <input class="cfg-input" type="text" value="dent2026/grupoX/comandos" id="cmdTopic" />
+            </div>
+            <button class="btn btn-primary" onclick="sendCmd()" style="height:34px;padding:0 16px;">▶ Enviar</button>
+          </div>
+          <div id="cmdFeedback"
+            style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);margin-top:10px;min-height:16px;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REGISTROS -->
+    <div class="tab-content" id="tab-registros">
+      <div class="reg-card">
+        <div class="card-header">
+          <span class="card-title" id="regTitle">Registros Modbus RTU — esperando datos</span>
+          <div style="display:flex;gap:8px;">
+            <span class="badge">Esclavo ID: 1</span>
+            <span class="badge">RS232 · 9600 bps</span>
+          </div>
+        </div>
+        <table class="reg-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Dirección</th>
+              <th>Nombre</th>
+              <th>Valor raw</th>
+              <th>Escalado</th>
+              <th>Unidad</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="regTableBody"></tbody>
+        </table>
+        <div style="margin-top:14px;display:flex;gap:8px;">
+          <button class="btn btn-primary" onclick="refreshRegs()">↺ Actualizar lecturas</button>
+          <button class="btn btn-secondary">⬇ Exportar JSON</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONFIG -->
+    <div class="tab-content" id="tab-config">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="cfg-card">
+          <div class="cfg-group">
+            <div class="cfg-group-title">Broker MQTT</div>
+            <div class="cfg-row">
+              <div class="cfg-field">
+                <label class="cfg-label">Dirección / Host</label>
+                <input class="cfg-input" value="broker.emqx.io" id="cfgBroker" />
+              </div>
+              <div class="cfg-field">
+                <label class="cfg-label">Puerto</label>
+                <input class="cfg-input" type="number" value="1883" id="cfgPort" />
+              </div>
+            </div>
+            <div class="cfg-row">
+              <div class="cfg-field">
+                <label class="cfg-label">Usuario</label>
+                <input class="cfg-input" placeholder="usuario" id="cfgUser" />
+              </div>
+              <div class="cfg-field">
+                <label class="cfg-label">Contraseña</label>
+                <input class="cfg-input" type="password" placeholder="••••••" id="cfgPass" />
+              </div>
+            </div>
+          </div>
+          <div class="cfg-group">
+            <div class="cfg-group-title">Tópicos MQTT</div>
+            <div class="cfg-row">
+              <div class="cfg-field">
+                <label class="cfg-label">Publicación (TX)</label>
+                <input class="cfg-input" value="dent2026/grupoX/sensores" id="cfgPub" />
+              </div>
+              <div class="cfg-field">
+                <label class="cfg-label">Suscripción (RX)</label>
+                <input class="cfg-input" value="dent2026/grupoX/comandos" id="cfgSub" />
+              </div>
+            </div>
+          </div>
+          <div class="cfg-group">
+            <div class="cfg-group-title">Tiempo de reporte</div>
+            <div class="cfg-row">
+              <div class="cfg-field">
+                <label class="cfg-label">Intervalo (ms)</label>
+                <input class="cfg-input" type="number" value="5000" id="cfgInterval" />
+              </div>
+              <div class="cfg-field">
+                <label class="cfg-label">Modo</label>
+                <select class="cfg-input" id="cfgMode">
+                  <option>Periódico</option>
+                  <option>Por cambio</option>
+                  <option>Ambos</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-primary" onclick="saveConfig()">💾 Guardar en ESP32</button>
+            <button class="btn btn-secondary">↺ Restaurar</button>
+          </div>
+          <div id="cfgFeedback"
+            style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--green);margin-top:10px;min-height:14px;">
+          </div>
+        </div>
+
+        <div class="cfg-card">
+          <div class="cfg-group">
+            <div class="cfg-group-title">Puerto RS232 — Modbus RTU</div>
+
+            <div class="cfg-row">
+              <div class="cfg-field">
+                <label class="cfg-label">Baud rate</label>
+                <select class="cfg-input" id="cfgBaud">
+                  <option value="9600">9600</option>
+                  <option value="19200">19200</option>
+                  <option value="38400">38400</option>
+                  <option value="115200">115200</option>
+                </select>
+              </div>
+
+              <div class="cfg-field">
+                <label class="cfg-label">Bits de datos</label>
+                <select class="cfg-input" id="cfgDataBits">
+                  <option value="8">8</option>
+                  <option value="7">7</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="cfg-row">
+              <div class="cfg-field">
+                <label class="cfg-label">Paridad</label>
+                <select class="cfg-input" id="cfgParity">
+                  <option value="None">Ninguna</option>
+                  <option value="Even">Par</option>
+                  <option value="Odd">Impar</option>
+                </select>
+              </div>
+
+              <div class="cfg-field">
+                <label class="cfg-label">Bits de parada</label>
+                <select class="cfg-input" id="cfgStopBits">
+                  <option value="One">1</option>
+                  <option value="Two">2</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="cfg-row">
+              <div class="cfg-field">
+                <label class="cfg-label">ID esclavo Modbus</label>
+                <input class="cfg-input" type="number" value="1" id="cfgSlaveId" />
+              </div>
+
+              <div class="cfg-field">
+                <label class="cfg-label">Timeout (ms)</label>
+                <input class="cfg-input" type="number" value="2000" id="cfgTimeout" />
+              </div>
+            </div>
+          </div>
+          <div class="cfg-group">
+            <div class="cfg-group-title">WiFi</div>
+            <div class="cfg-row">
+              <div class="cfg-field">
+                <label class="cfg-label">SSID</label>
+                <input class="cfg-input" placeholder="NombreRed" id="cfgSSID" />
+              </div>
+              <div class="cfg-field">
+                <label class="cfg-label">Contraseña WiFi</label>
+                <input class="cfg-input" type="password" placeholder="••••••" id="cfgWPass" />
+              </div>
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-primary" onclick="saveWifiModbusConfig()">💾 Guardar WiFi / Modbus</button>
+            <button class="btn btn-danger">⚠ Reset fábrica</button>
+          </div>
+          <div id="connFeedback"
+            style="font-family:'JetBrains Mono',monospace;font-size:10px;margin-top:10px;min-height:14px;color:var(--text3);">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOG -->
+    <div class="tab-content" id="tab-log">
+      <div class="log-card">
+        <div class="card-header">
+          <span class="card-title">Log completo MQTT</span>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-secondary" style="font-size:11px;padding:4px 12px;" onclick="clearLog()">🗑
+              Limpiar</button>
+            <span class="badge" id="logCount">0 entradas</span>
+          </div>
+        </div>
+        <div class="log-list" id="fullLog" style="max-height:400px;">
+          <div class="log-entry">
+            <span class="log-time">--:--:--</span>
+            <span class="log-dir pub">SYS</span>
+            <span class="log-msg">IncuGateway iniciado. Conectando...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // ── Estado global ─────────────────────────────────────────
+    let temps = [];
+    let mqttCount = 0;
+    let logEntries = [];
+
+    const regNames = [
+      'Temperatura zona A', 'Temperatura zona B', 'Humedad',
+      'CO₂', 'Ventilador', 'Setpoint temp', 'Setpoint hum',
+      'Calefactor', 'Humidificador', 'Tiempo ciclo', 'Voltaje',
+      'Corriente', 'Alarma temp', 'Alarma hum',
+      'Contador ciclos', 'Estado general'
+    ];
+
+    const regUnits = [
+      '°C',
+      '°C',
+      '%',
+      'ppm',
+      'rpm',
+      '°C',
+      '%',
+      'bool',
+      'bool',
+      'min',
+      'V',
+      'A',
+      'flag',
+      'flag',
+      'ciclos',
+      '0/1'
+    ];
+
+    const regScale = [
+      1, 1, 1, 1,
+      1, 1, 1, 1,
+      1, 1, 1, 1,
+      1, 1, 1, 1
+    ];
+
+    // ── Reloj ─────────────────────────────────────────────────
+    function updateClock() {
+      document.getElementById('clockEl').textContent =
+        new Date().toLocaleTimeString('es-CO', { hour12: false });
+    }
+    setInterval(updateClock, 1000); updateClock();
+
+    // ── FETCH datos reales del ESP32 ──────────────────────────
+    async function tick() {
+      try {
+        const res = await fetch('/api/data');
+        const data = await res.json();
+
+        document.getElementById('ipDisplay').textContent = 'Conectado';
+        document.getElementById('espStatusText').textContent = 'ESP32 · datos activos';
+
+        if (data.error) {
+          document.getElementById('modbusCount').textContent = '--';
+          document.getElementById('modbusSub').textContent = 'Sin datos Modbus';
+
+          const regTitle = document.getElementById('regTitle');
+          if (regTitle) {
+            regTitle.textContent = 'Registros Modbus RTU — sin datos';
+          }
+
+          addLog('ERR', 'err', data.error);
+          return;
+        }
+
+        // Temperatura (el ESP32 manda el raw)
+        const temp = data.temp;
+        const hum = data.hum;
+
+        document.getElementById('tempVal').innerHTML =
+          temp + '<span class="kpi-unit">°C</span>';
+        document.getElementById('humVal').innerHTML =
+          hum + '<span class="kpi-unit">%</span>';
+        document.getElementById('tempSub').textContent =
+          'Última lectura: ' + new Date().toLocaleTimeString();
+        document.getElementById('gaugeText').textContent = temp;
+
+        // ── Alarma de temperatura ─────────────────────────────
+        const t = parseFloat(temp);
+        const card   = document.getElementById('alarmCard');
+        const icon   = document.getElementById('alarmIcon');
+        const msg    = document.getElementById('alarmMsg');
+        const bar    = document.getElementById('alarmBar');
+
+        // Barra de progreso: mapear 20–45°C a 0–100%
+        const barPct = Math.max(0, Math.min(100, ((t - 20) / 25) * 100));
+        bar.style.width = barPct + '%';
+
+        // Quitar todas las clases de alarma previas
+        card.classList.remove('alarm-high','alarm-low','alarm-warn','alarm-ok');
+
+        if (t < 34) {
+          // MUY BAJA — peligro
+          card.classList.add('alarm-low');
+          icon.textContent = '🔵';
+          bar.style.background = '#2979ff';
+          msg.style.color = '#2979ff';
+          msg.textContent = '⚠ TEMP. MUY BAJA\nSUBIR TEMPERATURA';
+        } else if (t < 36) {
+          // BAJA — advertencia
+          card.classList.add('alarm-warn');
+          icon.textContent = '🟡';
+          bar.style.background = '#ffd600';
+          msg.style.color = '#ffd600';
+          msg.textContent = '↑ TEMPERATURA BAJA\nACERCANDOSE AL RANGO';
+        } else if (t <= 38) {
+          // OK — rango ideal
+          card.classList.add('alarm-ok');
+          icon.textContent = '✅';
+          bar.style.background = '#00e676';
+          msg.style.color = '#00e676';
+          msg.textContent = 'TEMPERATURA ÓPTIMA\nEN RANGO IDEAL';
+        } else if (t <= 40) {
+          // ALTA — advertencia
+          card.classList.add('alarm-warn');
+          icon.textContent = '🟡';
+          bar.style.background = '#ffd600';
+          msg.style.color = '#ffd600';
+          msg.textContent = '↓ TEMPERATURA ALTA\nACERCANDOSE AL LÍMITE';
+        } else {
+          // MUY ALTA — peligro
+          card.classList.add('alarm-high');
+          icon.textContent = '🔴';
+          bar.style.background = '#ff4444';
+          msg.style.color = '#ff4444';
+          msg.textContent = '⚠ TEMP. MUY ALTA\nBAJAR TEMPERATURA';
+        }
+
+        // Gráfica
+        temps.push(parseFloat(temp));
+        if (temps.length > 20) temps.shift();
+        drawChart();
+
+        // Contador MQTT
+        mqttCount++;
+        document.getElementById('mqttCount').textContent = mqttCount;
+        document.getElementById('mqttBadge').textContent = mqttCount + ' msg';
+
+        // Log
+        const ts = new Date().toLocaleTimeString('es-CO', { hour12: false });
+        let payload;
+
+        if (data.registros && data.registros.length > 0) {
+          payload = JSON.stringify({
+            device: 'INCUGATEWAY',
+            slaveId: 1,
+            registers: data.registros.map(r => ({
+              address: r.addr,
+              raw: r.val
+            }))
+          });
+        } else {
+          payload = JSON.stringify(data);
+        }
+
+        addLog(ts, 'pub', payload);
+
+        // Actualizar tabla de registros si está visible
+        if (data.registros) updateRegTable(data.registros);
+
+        if (data.registros) {
+          updateRegTable(data.registros);
+
+          const count = data.registros.length;
+
+          document.getElementById('modbusCount').textContent = count;
+          document.getElementById('modbusSub').textContent =
+            count > 0
+              ? '@' + data.registros[0].addr + '–' + data.registros[count - 1].addr + ' · OK'
+              : 'Sin registros';
+
+          const regTitle = document.getElementById('regTitle');
+          if (regTitle) {
+            regTitle.textContent = 'Registros Modbus RTU — ' + count + ' registros activos';
+          }
+        }
+
+      }
+      catch (e) {
+        console.log('Error fetch /api/data:', e);
+
+        document.getElementById('ipDisplay').textContent = 'Sin conexión';
+        document.getElementById('espStatusText').textContent = 'ESP32 · sin respuesta';
+
+        const ts = new Date().toLocaleTimeString('es-CO', { hour12: false });
+        addLog(ts, 'err', 'Sin respuesta del ESP32');
+      }
+    }
+    setInterval(tick, 5000);
+    tick(); // Primera llamada inmediata
+
+    // ── Guardar config en SD via ESP32 ───────────────────────
+    async function saveConfig() {
+      const config = {
+        broker: document.getElementById('cfgBroker').value,
+        port: parseInt(document.getElementById('cfgPort').value),
+        user: document.getElementById('cfgUser').value,
+        password: document.getElementById('cfgPass').value,
+        topicPub: document.getElementById('cfgPub').value,
+        topicSub: document.getElementById('cfgSub').value,
+        intervalMs: parseInt(document.getElementById('cfgInterval').value)
+      };
+      const fb = document.getElementById('cfgFeedback');
+      fb.style.color = 'var(--yellow)';
+      fb.textContent = '⏳ Guardando en ESP32...';
+      try {
+        const res = await fetch('/api/config', {
+          method: 'POST', body: JSON.stringify(config)
+        });
+        const result = await res.json();
+        if (result.status === 'ok') {
+          fb.style.color = 'var(--green)';
+          fb.textContent = '✓ Configuración guardada en SD';
+          const ts = new Date().toLocaleTimeString('es-CO', { hour12: false });
+          addLog(ts, 'pub', 'config guardada → ' + config.broker);
+        }
+      } catch (e) {
+        fb.style.color = 'var(--red)';
+        fb.textContent = '✗ Error al guardar';
+      }
+    }
+
+    // ── Enviar comando Modbus via HTTP ────────────────────────
+    async function sendCmd() {
+      const addr = parseInt(document.getElementById('cmdAddr').value);
+      const val = parseInt(document.getElementById('cmdVal').value);
+
+      const fb = document.getElementById('cmdFeedback');
+
+      fb.style.color = 'var(--yellow)';
+      fb.textContent = '⏳ Enviando comando...';
+
+      const body = 'Direccion:' + addr + ',Valor:' + val;
+
+      try {
+        const res = await fetch('/api/command', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'text/plain'
+          },
+          body: body
+        });
+
+        const text = await res.text();
+
+        if (text.indexOf('ok') >= 0) {
+          fb.style.color = 'var(--green)';
+          fb.textContent = '✓ Comando enviado: ' + body;
+
+          const ts = new Date().toLocaleTimeString('es-CO', { hour12: false });
+          addLog(ts, 'sub', 'Modbus write → ' + body);
+
+          setTimeout(tick, 800);
+        } else {
+          fb.style.color = 'var(--red)';
+          fb.textContent = '✗ Error: ' + text;
+        }
+      } catch (e) {
+        fb.style.color = 'var(--red)';
+        fb.textContent = '✗ Sin respuesta del ESP32';
+      }
+
+      setTimeout(() => fb.textContent = '', 4000);
+    }
+
+    // ── Probar conexión ───────────────────────────────────────
+    async function saveWifiModbusConfig() {
+      const fb = document.getElementById('connFeedback');
+
+      fb.style.color = 'var(--yellow)';
+      fb.textContent = '⏳ Guardando WiFi y Modbus en microSD...';
+
+      const wifiConfig = {
+        ssid: document.getElementById('cfgSSID').value,
+        password: document.getElementById('cfgWPass').value
+      };
+
+      const modbusConfig = {
+        slaveId: parseInt(document.getElementById('cfgSlaveId').value),
+        baudRate: parseInt(document.getElementById('cfgBaud').value),
+        dataBits: parseInt(document.getElementById('cfgDataBits').value),
+        parity: document.getElementById('cfgParity').value,
+        stopBits: document.getElementById('cfgStopBits').value,
+        txPin: 17,
+        rxPin: 16,
+        timeoutMs: parseInt(document.getElementById('cfgTimeout').value),
+        startAddress: 0,
+        quantity: 16
+      };
+
+      try {
+        const resWifi = await fetch('/api/wifi-config', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(wifiConfig)
+        });
+
+        const txtWifi = await resWifi.text();
+
+        const resModbus = await fetch('/api/modbus-config', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(modbusConfig)
+        });
+
+        const txtModbus = await resModbus.text();
+
+        if (txtWifi.indexOf('ok') >= 0 && txtModbus.indexOf('ok') >= 0) {
+          fb.style.color = 'var(--green)';
+          fb.textContent = '✓ WiFi y Modbus guardados. Reinicia la ESP32 para aplicar.';
+
+          const ts = new Date().toLocaleTimeString('es-CO', { hour12: false });
+          addLog(ts, 'pub', 'Config WiFi/Modbus guardada en microSD');
+        } else {
+          fb.style.color = 'var(--red)';
+          fb.textContent = '✗ Error guardando WiFi/Modbus';
+        }
+      } catch (e) {
+        fb.style.color = 'var(--red)';
+        fb.textContent = '✗ Sin respuesta del ESP32 al guardar configuración';
+      }
+    }
+
+    // ── Gráfica ───────────────────────────────────────────────
+    function drawChart() {
+      if (temps.length === 0) return;
+
+      // Dimensiones del viewBox del SVG
+      const W = 560;
+      const padLeft = 30;   // espacio para etiquetas eje Y
+      const yTop    = 10;   // píxel Y donde se grafica el valor máximo (50°C)
+      const yBottom = 130;  // píxel Y donde se grafica el valor mínimo (0°C)
+
+      // Rango de temperatura fijo (0–50°C)
+      const minTemp = 0;
+      const maxTemp = 50;
+      const range   = maxTemp - minTemp;
+
+      // Función de mapeo: temperatura → coordenada Y en el SVG
+      // t=50 → yTop=10 ; t=0 → yBottom=130
+      function tempToY(t) {
+        const clamped = Math.max(minTemp, Math.min(maxTemp, t));
+        return yBottom - ((clamped - minTemp) / range) * (yBottom - yTop);
+      }
+
+      const n = temps.length;
+      const chartW = W - padLeft;   // ancho disponible para la línea
+
+      const pts = temps.map((t, i) => {
+        const x = n === 1
+          ? padLeft + chartW / 2
+          : padLeft + (i / (n - 1)) * chartW;
+        const y = tempToY(t);
+        return [x, y];
+      });
+
+      let d = '';
+
+      if (pts.length === 1) {
+        d = `M${pts[0][0] - 10},${pts[0][1]} L${pts[0][0] + 10},${pts[0][1]}`;
+      } else {
+        d = pts.map((p, i) =>
+          i === 0 ? `M${p[0]},${p[1]}` : `L${p[0]},${p[1]}`
+        ).join(' ');
+      }
+
+      document.getElementById('chartLine').setAttribute('d', d);
+
+      // Área de relleno cierra en yBottom (línea del 0°C)
+      document.getElementById('chartArea').setAttribute(
+        'd',
+        d + ` L${pts[pts.length - 1][0]},${yBottom} L${pts[0][0]},${yBottom} Z`
+      );
+
+      document.getElementById('chartDot').setAttribute('cx', pts[pts.length - 1][0]);
+      document.getElementById('chartDot').setAttribute('cy', pts[pts.length - 1][1]);
+    }
+
+    // ── Tabla de registros ────────────────────────────────────
+    function updateRegTable(registros) {
+      const body = document.getElementById('regTableBody');
+      if (!body || !registros) return;
+
+      body.innerHTML = registros.map((r, i) => {
+        const scale = regScale[i] || 1;
+        const unit = regUnits[i] || '-';
+        const scaled = r.val * scale;
+
+        let shownValue;
+
+        if (scale === 1) {
+          shownValue = scaled.toString();
+        } else {
+          shownValue = scaled.toFixed(1);
+        }
+
+        if (unit === 'bool') {
+          shownValue = r.val == 1 ? 'ON' : 'OFF';
+        }
+
+        return `
+          <tr>
+            <td style="color:var(--text3)">${i + 1}</td>
+            <td class="reg-addr">${r.addr}</td>
+            <td>${regNames[i] || 'Registro ' + (i + 1)}</td>
+            <td style="color:var(--text3)">${r.val}</td>
+            <td class="reg-val">${shownValue}</td>
+            <td style="color:var(--text3)">${unit}</td>
+            <td><span class="reg-status"></span></td>
+          </tr>`;
+      }).join('');
+    }
+
+    function refreshRegs() { tick(); }
+
+    // ── Log ───────────────────────────────────────────────────
+    function addLog(ts, dir, msg) {
+      logEntries.unshift({ ts, dir, msg });
+      if (logEntries.length > 100) logEntries.pop();
+      renderMiniLog(); renderFullLog();
+    }
+    function renderMiniLog() {
+      document.getElementById('miniLog').innerHTML =
+        logEntries.slice(0, 8).map(e => `
+      <div class="log-entry">
+        <span class="log-time">${e.ts}</span>
+        <span class="log-dir ${e.dir === 'err' ? 'sub' : 'pub'}">${e.dir.toUpperCase()}</span>
+        <span class="log-msg">${e.msg.substring(0, 60)}${e.msg.length > 60 ? '…' : ''}</span>
+      </div>`).join('');
+    }
+    function renderFullLog() {
+      document.getElementById('fullLog').innerHTML =
+        logEntries.map(e => `
+      <div class="log-entry">
+        <span class="log-time">${e.ts}</span>
+        <span class="log-dir ${e.dir === 'err' ? 'sub' : 'pub'}">${e.dir.toUpperCase()}</span>
+        <span class="log-msg">${e.msg}</span>
+      </div>`).join('');
+      document.getElementById('logCount').textContent =
+        logEntries.length + ' entradas';
+    }
+    function clearLog() { logEntries = []; renderMiniLog(); renderFullLog(); }
+
+    // ── Navegación ────────────────────────────────────────────
+    function showTab(name, el) {
+      document.querySelectorAll('.tab-content')
+        .forEach(t => t.classList.remove('active'));
+      document.getElementById('tab-' + name).classList.add('active');
+      document.querySelectorAll('.nav-item')
+        .forEach(n => n.classList.remove('active'));
+      if (el) el.classList.add('active');
+      const titles = {
+        dashboard: 'Dashboard <span>/ Monitoreo</span>',
+        registros: 'Registros <span>/ Modbus RTU</span>',
+        config: 'Configuración <span>/ Dispositivo</span>',
+        log: 'Log <span>/ MQTT</span>'
+      };
+      document.getElementById('pageTitle').innerHTML = titles[name];
+    }
+  </script>
+</body>
+
+</html>

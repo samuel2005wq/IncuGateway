@@ -1,0 +1,2 @@
+ssid=HONOR Magic5 Lite 5G
+password=12345678

@@ -1,0 +1,16 @@
+reg0=40001,Temperatura zona A,0,0.1,C
+reg1=40002,Temperatura zona B,1,0.1,C
+reg2=40003,Humedad relativa,2,0.1,%
+reg3=40004,CO2 concentracion,3,1,ppm
+reg4=40005,Velocidad ventilador,4,1,rpm
+reg5=40006,Setpoint temperatura,5,0.1,C
+reg6=40007,Setpoint humedad,6,0.1,%
+reg7=40008,Estado calefactor,7,1,bool
+reg8=40009,Estado humidificador,8,1,bool
+reg9=40010,Tiempo en ciclo,9,1,min
+reg10=40011,Voltaje alimentacion,10,0.1,V
+reg11=40012,Corriente calefactor,11,0.1,A
+reg12=40013,Alarma temperatura,12,1,flag
+reg13=40014,Alarma humedad,13,1,flag
+reg14=40015,Contador ciclos,14,1,ciclos
+reg15=40016,Estado general,15,1,0/1
