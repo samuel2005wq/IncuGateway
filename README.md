@@ -20,20 +20,34 @@ El repositorio está organizado principalmente en dos carpetas:
 
 ```text
 IncuGateway/
-├── Memoria/
-│   ├── index.html
-│   ├── ModbusCfg.txt
-│   ├── MqttCfg.txt
-│   ├── RegisterCfg.txt
-│   └── WifiCfg.txt
 │
-└── Programa/
-    ├── Program.cs
-    ├── HttpServer.cs
-    ├── MqttService.cs
-    ├── WifiService.cs
-    ├── SdConfigHelper.cs
-    ├── MicroSdRawFat32Reader.cs
-    ├── ModbusCommand.cs
-    └── Modbus/
-        └── ModbusDriver.cs
+├── README.md
+│
+├── Programa/
+│   └── Proyecto/
+│       ├── Program.cs
+│       ├── HttpServer.cs
+│       ├── MqttService.cs
+│       ├── WifiServer.cs
+│       ├── SdConfigHelper.cs
+│       ├── ModbusDriver.cs
+│       ├── ModbusCommand.cs
+│       ├── Proyecto.nfproj
+│       ├── packages.config
+│       │
+│       ├── Utils/
+│       │   ├── EmbeddedDashboard.cs
+│       │   └── MicroSdRawFat32Reader.cs
+│       │
+│       ├── Properties/
+│       │   └── AssemblyInfo.cs
+│       │
+│       ├── bin/
+│       └── obj/
+│
+└── Memoria/
+    ├── index.html
+    ├── ModbusCfg.txt
+    ├── MqttCfg.txt
+    ├── RegisterCfg.txt
+    └── WifiCfg.txt
