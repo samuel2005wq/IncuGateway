@@ -1,0 +1,628 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>nanoFramework.WebServer</name>
+    </assembly>
+    <members>
+        <member name="T:nanoFramework.WebServer.Authentication">
+            <summary>
+            The authentication to be used by the server.
+            </summary>
+        </member>
+        <member name="P:nanoFramework.WebServer.Authentication.AuthenticationType">
+            <summary>
+            The type of authentication.
+            </summary>
+        </member>
+        <member name="P:nanoFramework.WebServer.Authentication.Credentials">
+            <summary>
+            The network credential user and password.
+            </summary>
+        </member>
+        <member name="P:nanoFramework.WebServer.Authentication.ApiKey">
+            <summary>
+            The API Key to use for authentication.
+            </summary>
+        </member>
+        <member name="M:nanoFramework.WebServer.Authentication.#ctor(System.Net.NetworkCredential)">
+            <summary>
+            Creates an autentication class from a credential.
+            </summary>
+            <param name="credential">The credentials.</param>
+        </member>
+        <member name="M:nanoFramework.WebServer.Authentication.#ctor(System.String)">
+            <summary>
+            Creates an authentication from a key.
+            </summary>
+            <param name="apiKey">The key.</param>
+        </member>
+        <member name="M:nanoFramework.WebServer.Authentication.#ctor">
+            <summary>
+            Creates an empty authenticate.
+            </summary>
+        </member>
+        <member name="T:nanoFramework.WebServer.AuthenticationAttribute">
+            <summary>
+            Authentication attribute for classes and method
+            </summary>
+        </member>
+        <member name="P:nanoFramework.WebServer.AuthenticationAttribute.AuthenticationMethod">
+            <summary>
+            The authentication method, examples:
+            - Basic:user password
+            - Basic
+            - ApiKey:OneApiKey
+            - ApiKey
+            - None
+            In case of Basic and ApiKey alone, the default one passed at server properties ones will be used
+            The Basic authentication is a classical http basic authentication and the couple user password have to be separated with a space, the password can contain spaces but not the user name. Basic and the user name has to be separated with a :
+            ApiKey and the current apikey has to be separated with :
+            The current ApiKey can contain only characters that are allow in http headers
+            </summary>
+        </member>
+        <member name="M:nanoFramework.WebServer.AuthenticationAttribute.#ctor(System.String)">
+            <summary>
+            The constructor for the Authentication attribute
+            </summary>
+            <param name="auth"></param>
+        </member>
+        <member name="T:nanoFramework.WebServer.AuthenticationType">
+            <summary>
+            The type of authentication to use.
+            </summary>
+        </member>
+        <member name="F:nanoFramework.WebServer.AuthenticationType.None">
+            <summary>
+            No authentication is needed.
+            </summary>
+        </member>
+        <member name="F:nanoFramework.WebServer.AuthenticationType.Basic">
+            <summary>
+            Basic authentication with user and password.
+            </summary>
+        </member>
+        <member name="F:nanoFramework.WebServer.AuthenticationType.ApiKey">
+            <summary>
+            Using an ApiKey.
+            </summary>
+        </member>
+        <member name="T:nanoFramework.WebServer.CallbackRoutes">
+            <summary>
+            Callback function for the various routes
+            </summary>
+        </member>
+        <member name="P:nanoFramework.WebServer.CallbackRoutes.Callback">
+            <summary>
+            The method to call for a specific route
+            </summary>
+        </member>
+        <member name="P:nanoFramework.WebServer.CallbackRoutes.Route">
+            <summary>
+            The route ex: api/gpio
+            </summary>
+        </member>
+        <member name="P:nanoFramework.WebServer.CallbackRoutes.CaseSensitive">
+            <summary>
+            Is the root case sensitive?
+            </summary>
+        </member>
+        <member name="P:nanoFramework.WebServer.CallbackRoutes.Method">
+            <summary>
+            The http method ex GET or POST, leave string.Empty for any
+            </summary>
+        </member>
+        <member name="P:nanoFramework.WebServer.CallbackRoutes.Authentication">
+            <summary>
+            the authentication details
+            </summary>
+        </member>
+        <member name="T:nanoFramework.WebServer.CaseSensitiveAttribute">
+            <summary>
+            If the route is case sensitive or not
+            </summary>
+        </member>
+        <member name="T:nanoFramework.WebServer.HttpListenerRequestExtensions">
+            <summary>Contains extension methods for HttpListenerRequest</summary>
+        </member>
+        <member name="M:nanoFramework.WebServer.HttpListenerRequestExtensions.ReadForm(System.Net.HttpListenerRequest)">
+            <summary>
+            Reads a Multipart form from the request
+            </summary>
+            <param name="httpListenerRequest">The request to read the form from</param>
+            <returns>A <see cref="T:nanoFramework.WebServer.HttpMultipartParser.MultipartFormDataParser">MultipartFormDataParser</see> containing a collection of the parameters and files in the form.</returns>
+        </member>
+        <member name="M:nanoFramework.WebServer.HttpListenerRequestExtensions.ReadBody(System.Net.HttpListenerRequest)">
+            <summary>
+            Reads a body from the HttpListenerRequest inputstream
+            </summary>
+            <param name="httpListenerRequest">The request to read the body from</param>
+            <returns>A byte[] containing the body of the request</returns>
+        </member>
+        <member name="T:nanoFramework.WebServer.HttpMultipartParser.FilePart">
+            <summary>Represents a single file extracted from a multipart/form-data stream.</summary>
+        </member>
+        <member name="M:nanoFramework.WebServer.HttpMultipartParser.FilePart.#ctor(System.String,System.String,System.IO.Stream,System.Collections.Hashtable,System.String,System.String)">
+            <summary>Initializes a new instance of the <see cref="T:nanoFramework.WebServer.HttpMultipartParser.FilePart" /> class.</summary>
+            <param name="name">The name of the input field used for the upload.</param>
+            <param name="fileName">The name of the file.</param>
+            <param name="data">The file data.</param>
+            <param name="additionalProperties">Additional properties associated with this file.</param>
+            <param name="contentType">The content type.</param>
+            <param name="contentDisposition">The content disposition.</param>
+        </member>
+        <member name="P:nanoFramework.WebServer.HttpMultipartParser.FilePart.Data">
+            <summary>Gets the data.</summary>
+        </member>
+        <member name="P:nanoFramework.WebServer.HttpMultipartParser.FilePart.FileName">
+            <summary>Gets the file name.</summary>
+        </member>
+        <member name="P:nanoFramework.WebServer.HttpMultipartParser.FilePart.Name">
+            <summary>Gets the name.</summary>
+        </member>
+        <member name="P:nanoFramework.WebServer.HttpMultipartParser.FilePart.ContentType">
+            <summary>Gets the content-type. Defaults to text/plain if unspecified.</summary>
+        </member>
+        <member name="P:nanoFramework.WebServer.HttpMultipartParser.FilePart.ContentDisposition">
+            <summary>Gets the content-disposition. Defaults to form-data if unspecified.</summary>
+        </member>
+        <member name="P:nanoFramework.WebServer.HttpMultipartParser.FilePart.AdditionalProperties">
+            <summary>
+            Gets the additional properties associated with this file.
+            An additional property is any property other than the "well known" ones such as name, filename, content-type, etc.
+            </summary>
+        </member>
+        <member name="T:nanoFramework.WebServer.HttpMultipartParser.HeaderUtility">
+            <summary>
+            Provides parsing headers from a Http Multipart Form
+            </summary>
+        </member>
+        <member name="M:nanoFramework.WebServer.HttpMultipartParser.HeaderUtility.ParseHeaders(System.String,System.Collections.Hashtable)">
+            <summary>
+            Reads headers from a line of text.
+            Headers are delimited by a semi-colon ';'
+            Key-value pairs are separated by colon ':' or equals '='
+            Values can be delimited by quotes '"' or not
+            </summary>
+            <param name="text">The line of text containing one or more headers</param>
+            <param name="headers">
+            The hashtable that will receive the key values.
+            Passed in since a Multipart Part can contain multiple lines of headers
+            </param>
+        </member>
+        <member name="T:nanoFramework.WebServer.HttpMultipartParser.LineReader">
+            <summary>Provides methods to read a stream line by line while still returning the bytes.</summary>
+        </member>
+        <member name="M:nanoFramework.WebServer.HttpMultipartParser.LineReader.#ctor(System.IO.Stream,System.Int32)">
+            <summary>Initializes a new instance of the <see cref="T:nanoFramework.WebServer.HttpMultipartParser.LineReader"/> class.</summary>
+            <param name="stream">The input stream to read from.</param>
+            <param name="bufferSize">The buffer size to use for new buffers.</param>
+        </member>
+        <member name="M:nanoFramework.WebServer.HttpMultipartParser.LineReader.ReadByteLine(System.Boolean)">
+            <summary>
+            Reads a line from the stack delimited by the newline for this platform.
+            The newline characters will not be included in the stream.
+            </summary>
+            <param name="excludeNewLine">
+            If true the newline characters will be stripped when the line returns.
+            When reading binary data, newline characters are meaningfull and should be returned
+            </param>
+            <returns>The byte[] containing the line or null if end of stream.</returns>
+        </member>
+        <member name="M:nanoFramework.WebServer.HttpMultipartParser.LineReader.ReadLine">
+            <summary>
+            Reads a line from the stack delimited by the newline for this platform.
+            The newline characters will not be included in the stream.
+            </summary>
+            <returns>The <see cref="T:System.String" /> containing the line or null if end of stream.</returns>
+        </member>
+        <member name="T:nanoFramework.WebServer.HttpMultipartParser.MultipartFormDataParser">
+            <summary>
+                Provides methods to parse a
+                <see href="http://www.ietf.org/rfc/rfc2388.txt">
+                    <c>multipart/form-data</c>
+                </see>
+                stream into it's parameters and file data.
+            </summary>
+        </member>
+        <member name="M:nanoFramework.WebServer.HttpMultipartParser.MultipartFormDataParser.#ctor(System.IO.Stream,System.Int32,System.Boolean)">
+            <summary>Initializes a new instance of the <see cref="T:nanoFramework.WebServer.HttpMultipartParser.MultipartFormDataParser" /> class</summary>
+            <param name="stream">The stream containing the multipart data.</param>
+            <param name="binaryBufferSize">The size of the buffer to use for parsing the multipart form data.</param>
+            <param name="ignoreInvalidParts">By default the parser will throw an exception if it encounters an invalid part. Set this to true to ignore invalid parts.</param>
+        </member>
+        <member name="P:nanoFramework.WebServer.HttpMultipartParser.MultipartFormDataParser.Files">
+            <summary>Gets the mapping of parameters parsed files. The name of a given field maps to the parsed file data.</summary>
+        </member>
+        <member name="P:nanoFramework.WebServer.HttpMultipartParser.MultipartFormDataParser.Parameters">
+            <summary>Gets the parameters. Several ParameterParts may share the same name.</summary>
+        </member>
+        <member name="M:nanoFramework.WebServer.HttpMultipartParser.MultipartFormDataParser.Parse(System.IO.Stream,System.Int32,System.Boolean)">
+            <summary>Parse the stream into a new instance of the <see cref="T:nanoFramework.WebServer.HttpMultipartParser.MultipartFormDataParser" /> class</summary>
+            <param name="stream">The stream containing the multipart data.</param>
+            <param name="binaryBufferSize">The size of the buffer to use for parsing the multipart form data.</param>
+            <param name="ignoreInvalidParts">By default the parser will throw an exception if it encounters an invalid part. Set this to true to ignore invalid parts.</param>
+            <returns>A new instance of the <see cref="T:nanoFramework.WebServer.HttpMultipartParser.MultipartFormDataParser"/> class.</returns>
+        </member>
+        <member name="T:nanoFramework.WebServer.HttpMultipartParser.MultipartFormDataParserException">
+            <summary>
+            Specific exception while parsing a multipart form
+            </summary>
+        </member>
+        <member name="M:nanoFramework.WebServer.HttpMultipartParser.MultipartFormDataParserException.#ctor(System.String)">
+            <summary>
+            Initializes a MultipartFormDataParserException
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="T:nanoFramework.WebServer.HttpMultipartParser.ParameterPart">
+            <summary>Represents a single parameter extracted from a multipart/form-data stream.</summary>
+        </member>
+        <member name="M:nanoFramework.WebServer.HttpMultipartParser.ParameterPart.#ctor(System.String,System.String)">
+            <summary>Initializes a new instance of the <see cref="T:nanoFramework.WebServer.HttpMultipartParser.ParameterPart" /> class.</summary>
+            <param name="name">The name.</param>
+            <param name="data">The data.</param>
+        </member>
+        <member name="P:nanoFramework.WebServer.HttpMultipartParser.ParameterPart.Data">
+            <summary>Gets the data.</summary>
+        </member>
+        <member name="P:nanoFramework.WebServer.HttpMultipartParser.ParameterPart.Name">
+            <summary>Gets the name.</summary>
+        </member>
+        <member name="T:nanoFramework.WebServer.HttpProtocol">
+            <summary>
+            Http protocol used
+            </summary>
+        </member>
+        <member name="F:nanoFramework.WebServer.HttpProtocol.Http">
+            <summary>
+            Http protocol
+            </summary>
+        </member>
+        <member name="F:nanoFramework.WebServer.HttpProtocol.Https">
+            <summary>
+            Https protocol
+            </summary>
+        </member>
+        <member name="T:nanoFramework.WebServer.WebServerStatus">
+            <summary>
+            Represents the status of the server.
+            </summary>
+        </member>
+        <member name="F:nanoFramework.WebServer.WebServerStatus.Stopped">
+            <summary>
+            The server is stopped.
+            </summary>
+        </member>
+        <member name="F:nanoFramework.WebServer.WebServerStatus.Running">
+            <summary>
+            The server is running.
+            </summary>
+        </member>
+        <member name="T:nanoFramework.WebServer.WebServerStatusEventArgs">
+            <summary>
+            Provides data for the WebServerStatus event.
+            </summary>
+        </member>
+        <member name="M:nanoFramework.WebServer.WebServerStatusEventArgs.#ctor(nanoFramework.WebServer.WebServerStatus)">
+            <summary>
+            Initializes a new instance of the WebServerStatusEventArgs class with the specified status.
+            </summary>
+            <param name="status">The status of the web server.</param>
+        </member>
+        <member name="P:nanoFramework.WebServer.WebServerStatusEventArgs.Status">
+            <summary>
+            Gets the status of the web server.
+            </summary>
+        </member>
+        <member name="T:nanoFramework.WebServer.WebServerEventArgs">
+            <summary>
+            Web server event argument class
+            </summary>
+        </member>
+        <member name="M:nanoFramework.WebServer.WebServerEventArgs.#ctor(System.Net.HttpListenerContext)">
+            <summary>
+            Constructor for the event arguments
+            </summary>
+        </member>
+        <member name="M:nanoFramework.WebServer.WebServerEventArgs.#ctor(System.Net.HttpListenerContext,nanoFramework.WebServer.UrlParameter[])">
+            <summary>
+            Constructor for the event arguments with route parameters
+            </summary>
+        </member>
+        <member name="P:nanoFramework.WebServer.WebServerEventArgs.Context">
+            <summary>
+            The response class
+            </summary>
+        </member>
+        <member name="P:nanoFramework.WebServer.WebServerEventArgs.RouteParameters">
+            <summary>
+            Route parameters extracted from the URL (if any)
+            </summary>
+        </member>
+        <member name="M:nanoFramework.WebServer.WebServerEventArgs.GetRouteParameter(System.String)">
+            <summary>
+            Gets the value of a route parameter by name
+            </summary>
+            <param name="parameterName">The name of the parameter to retrieve</param>
+            <returns>The parameter value if found, otherwise null</returns>
+        </member>
+        <member name="T:nanoFramework.WebServer.Header">
+            <summary>
+            Header class
+            </summary>
+        </member>
+        <member name="P:nanoFramework.WebServer.Header.Name">
+            <summary>
+            Name of the header
+            </summary>
+        </member>
+        <member name="P:nanoFramework.WebServer.Header.Value">
+            <summary>
+            Value of the header
+            </summary>
+        </member>
+        <member name="T:nanoFramework.WebServer.MethodAttribute">
+            <summary>
+            The HTTP Method.
+            </summary>
+            <remarks>
+            No validation is performed if the HTTP method is a valid one.
+            For details on how to use, see: https://github.com/nanoframework/nanoFramework.WebServer#usage
+            </remarks>
+        </member>
+        <member name="P:nanoFramework.WebServer.MethodAttribute.Method">
+            <summary>
+            Gets the method.
+            </summary>
+        </member>
+        <member name="M:nanoFramework.WebServer.MethodAttribute.#ctor(System.String)">
+            <summary>
+            Creates a method attribute.
+            </summary>
+            <param name="method">The method.</param>
+        </member>
+        <member name="T:nanoFramework.WebServer.RouteAttribute">
+            <summary>
+            Route custom attribute.
+            </summary>
+            <remarks>
+            For example: test/any.
+            For details on how to use, see: https://github.com/nanoframework/nanoFramework.WebServer#usage
+            </remarks>
+        </member>
+        <member name="P:nanoFramework.WebServer.RouteAttribute.Route">
+            <summary>
+            Gets or sets the route.
+            </summary>
+        </member>
+        <member name="M:nanoFramework.WebServer.RouteAttribute.#ctor(System.String)">
+            <summary>
+            A route attribute.
+            </summary>
+            <param name="route">The complete route like 'route/second/third'.</param>
+        </member>
+        <member name="T:nanoFramework.WebServer.UrlParameter">
+            <summary>
+            Represent an URL parameter Name=Value
+            </summary>
+        </member>
+        <member name="P:nanoFramework.WebServer.UrlParameter.Name">
+            <summary>
+            Name of the parameter
+            </summary>
+        </member>
+        <member name="P:nanoFramework.WebServer.UrlParameter.Value">
+            <summary>
+            Valeu of the parameter
+            </summary>
+        </member>
+        <member name="T:nanoFramework.WebServer.WebServer">
+            <summary>
+            This class instantiates a web server.
+            </summary>
+        </member>
+        <member name="F:nanoFramework.WebServer.WebServer.ParamSeparator">
+            <summary>
+            URL parameter separation character
+            </summary>
+        </member>
+        <member name="F:nanoFramework.WebServer.WebServer.ParamStart">
+            <summary>
+            URL parameter start character
+            </summary>
+        </member>
+        <member name="F:nanoFramework.WebServer.WebServer.ParamEqual">
+            <summary>
+            URL parameter equal character
+            </summary>
+        </member>
+        <member name="P:nanoFramework.WebServer.WebServer.Port">
+            <summary>
+            Gets or sets the port the server listens on.
+            </summary>
+        </member>
+        <member name="P:nanoFramework.WebServer.WebServer.Protocol">
+            <summary>
+            The type of Http protocol used, http or https
+            </summary>
+        </member>
+        <member name="P:nanoFramework.WebServer.WebServer.HttpsCert">
+            <summary>
+            The Https certificate to use
+            </summary>
+        </member>
+        <member name="P:nanoFramework.WebServer.WebServer.SslProtocols">
+            <summary>
+            SSL protocols
+            </summary>
+        </member>
+        <member name="P:nanoFramework.WebServer.WebServer.Credential">
+            <summary>
+            Network credential used for default user:password couple during basic authentication
+            </summary>
+        </member>
+        <member name="P:nanoFramework.WebServer.WebServer.ApiKey">
+            <summary>
+            Default APiKey to be used for authentication when no key is specified in the attribute
+            </summary>
+        </member>
+        <member name="P:nanoFramework.WebServer.WebServer.IsRunning">
+            <summary>
+            Gets a value indicating whether the web server is running.
+            </summary>
+        </member>
+        <member name="M:nanoFramework.WebServer.WebServer.DecodeParam(System.String)">
+            <summary>
+            Get an array of parameters from a URL
+            </summary>
+            <param name="parameter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:nanoFramework.WebServer.WebServer.ExtractRouteParameters(System.String,System.String,System.Boolean)">
+            <summary>
+            Extracts route parameters from a URL that matches a parameterized route.
+            </summary>
+            <param name="route">The route template with parameters (e.g., "/api/devices/{id}").</param>
+            <param name="rawUrl">The actual URL being requested.</param>
+            <param name="caseSensitive">Whether the comparison should be case sensitive.</param>
+            <returns>An array of UrlParameter objects containing the parameter names and values, or null if the route doesn't match.</returns>
+        </member>
+        <member name="M:nanoFramework.WebServer.WebServer.#ctor(System.Int32,nanoFramework.WebServer.HttpProtocol)">
+            <summary>
+            Instantiates a new web server.
+            </summary>
+            <param name="port">Port number to listen on.</param>
+            <param name="protocol"><see cref="T:nanoFramework.WebServer.HttpProtocol"/> version to use with web server.</param>
+        </member>
+        <member name="M:nanoFramework.WebServer.WebServer.#ctor(System.Int32,nanoFramework.WebServer.HttpProtocol,System.Net.IPAddress)">
+            <summary>
+            Instantiates a new web server.
+            </summary>
+            <param name="port">Port number to listen on.</param>
+            <param name="protocol"><see cref="T:nanoFramework.WebServer.HttpProtocol"/> version to use with web server.</param>
+            <param name="address">IP address to bind to. If <c>null</c>, the server will bind to the default network interface.</param>
+        </member>
+        <member name="M:nanoFramework.WebServer.WebServer.#ctor(System.Int32,nanoFramework.WebServer.HttpProtocol,System.Type[])">
+            <summary>
+            Instantiates a new web server.
+            </summary>
+            <param name="port">Port number to listen on.</param>
+            <param name="protocol"><see cref="T:nanoFramework.WebServer.HttpProtocol"/> version to use with web server.</param>
+            <param name="controllers">Controllers to use with this web server.</param>
+        </member>
+        <member name="M:nanoFramework.WebServer.WebServer.#ctor(System.Int32,nanoFramework.WebServer.HttpProtocol,System.Net.IPAddress,System.Type[])">
+            <summary>
+            Instantiates a new web server.
+            </summary>
+            <param name="port">Port number to listen on.</param>
+            <param name="protocol"><see cref="T:nanoFramework.WebServer.HttpProtocol"/> version to use with web server.</param>
+            <param name="address">IP address to bind to. If <see langword="null"/>, will bind to default address.</param>
+            <param name="controllers">Controllers to use with this web server.</param>
+        </member>
+        <member name="T:nanoFramework.WebServer.WebServer.GetRequestHandler">
+            <summary>
+            Delegate for the CommandReceived event.
+            </summary>
+            <param name="obj">The source of the event.</param>
+            <param name="e">A WebServerEventArgs that contains the event data.</param>
+        </member>
+        <member name="E:nanoFramework.WebServer.WebServer.CommandReceived">
+            <summary>
+            CommandReceived event is triggered when a valid command (plus parameters) is received.
+            Valid commands are defined in the AllowedCommands property.
+            </summary>
+        </member>
+        <member name="T:nanoFramework.WebServer.WebServer.WebServerStatusHandler">
+            <summary>
+            Represents the method that will handle the WebServerStatusChanged event of a WebServer.
+            </summary>
+            <param name="obj">The source of the event.</param>
+            <param name="e">A WebServerStatusEventArgs that contains the event data.</param>
+        </member>
+        <member name="E:nanoFramework.WebServer.WebServer.WebServerStatusChanged">
+            <summary>
+            Occurs when the status of the WebServer changes.
+            </summary>
+        </member>
+        <member name="M:nanoFramework.WebServer.WebServer.Start">
+            <summary>
+            Start the multi threaded server.
+            </summary>
+        </member>
+        <member name="M:nanoFramework.WebServer.WebServer.Stop">
+            <summary>
+            Stop the multi threaded server.
+            </summary>
+        </member>
+        <member name="M:nanoFramework.WebServer.WebServer.OutPutStream(System.Net.HttpListenerResponse,System.String)">
+            <summary>
+            Output a stream
+            </summary>
+            <param name="response">the socket stream</param>
+            <param name="strResponse">the stream to output</param>
+        </member>
+        <member name="M:nanoFramework.WebServer.WebServer.OutputAsStream(System.Net.HttpListenerResponse,System.String)">
+            <summary>
+            Output a string content as a stream.
+            </summary>
+            <param name="response">The response to write to.</param>
+            <param name="content">the stream to output</param>
+        </member>
+        <member name="M:nanoFramework.WebServer.WebServer.OutputHttpCode(System.Net.HttpListenerResponse,System.Net.HttpStatusCode)">
+            <summary>
+            Output an HTTP Code and close the connection
+            </summary>
+            <param name="response">the socket stream</param>
+            <param name="code">the http code</param>
+        </member>
+        <member name="M:nanoFramework.WebServer.WebServer.SendFileOverHTTP(System.Net.HttpListenerResponse,System.String,System.Byte[],System.String)">
+            <summary>
+            Send file content over HTTP response.
+            </summary>
+            <param name="response"><see cref="T:System.Net.HttpListenerResponse"/> to send the content over.</param>
+            <param name="fileName">Name of the file to send over <see cref="T:System.Net.HttpListenerResponse"/>.</param>
+            <param name="content">Content of the file to send.</param>
+            <param name="contentType">The type of file, if empty string, then will use auto detection.</param>
+        </member>
+        <member name="M:nanoFramework.WebServer.WebServer.IsRouteMatch(nanoFramework.WebServer.CallbackRoutes,System.String,System.String)">
+            <summary>
+            Checks if route matches called resource.
+            For internal use only.
+            </summary>
+            <param name="route">Route to check.</param>
+            <param name="method">Invoked resource method.</param>
+            <param name="rawUrl">Invoked resource URL.</param>
+            <returns></returns>
+        </member>
+        <member name="M:nanoFramework.WebServer.WebServer.InvokeRoute(nanoFramework.WebServer.CallbackRoutes,System.Net.HttpListenerContext)">
+            <summary>
+            Method which invokes route. Can be overriden to inject custom logic.
+            </summary>
+            <param name="route">Current rounte to invoke. Resolved based on parameters.</param>
+            <param name="context">Context of current request.</param>
+        </member>
+        <member name="M:nanoFramework.WebServer.WebServer.ListInterfaces">
+            <summary>
+            List all IP address, useful for debug only
+            </summary>
+        </member>
+        <member name="M:nanoFramework.WebServer.WebServer.GetContentTypeFromFileName(System.String)">
+            <summary>
+            Get the MIME-type for a file name.
+            </summary>
+            <param name="fileExt">File extension to get content type for.</param>
+            <returns>The MIME-type for the file name.</returns>
+        </member>
+        <member name="M:nanoFramework.WebServer.WebServer.Dispose">
+            <summary>
+            Dispose of any resources.
+            </summary>
+        </member>
+        <member name="M:nanoFramework.WebServer.WebServer.Dispose(System.Boolean)">
+            <summary>
+            Release resources.
+            </summary>
+            <param name="disposing">Dispose of resources?</param>
+        </member>
+    </members>
+</doc>

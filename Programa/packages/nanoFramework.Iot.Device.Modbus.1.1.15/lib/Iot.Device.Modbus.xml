@@ -1,0 +1,763 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Iot.Device.Modbus</name>
+    </assembly>
+    <members>
+        <member name="T:Iot.Device.Modbus.Client.ModbusClient">
+            <summary>
+            Represents a Modbus client that communicates with a Modbus device over a serial port.
+            </summary>
+        </member>
+        <member name="M:Iot.Device.Modbus.Client.ModbusClient.#ctor(System.String,System.Int32,System.IO.Ports.Parity,System.Int32,System.IO.Ports.StopBits,System.IO.Ports.SerialMode)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Iot.Device.Modbus.Client.ModbusClient"/> class with the specified port settings.
+            </summary>
+            <param name="portName">The name of the serial port.</param>
+            <param name="baudRate">The baud rate. Default is 9600.</param>
+            <param name="parity">The parity. Default is <see cref="F:System.IO.Ports.Parity.None"/>.</param>
+            <param name="dataBits">The number of data bits. Default is 8.</param>
+            <param name="stopBits">The number of stop bits. Default is <see cref="F:System.IO.Ports.StopBits.One"/>.</param>
+            <param name="mode">The mode of serial port, default is <see cref="F:System.IO.Ports.SerialMode.RS485"/>.</param>
+        </member>
+        <member name="M:Iot.Device.Modbus.Client.ModbusClient.#ctor(System.IO.Ports.SerialPort,System.IO.Ports.SerialMode)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Iot.Device.Modbus.Client.ModbusClient"/> class with the specified serial port.
+            </summary>
+            <param name="port">The serial port.</param>
+            <param name="mode">The mode of serial port, default is <see cref="F:System.IO.Ports.SerialMode.RS485"/>.</param>
+        </member>
+        <member name="M:Iot.Device.Modbus.Client.ModbusClient.ReadDiscreteInputs(System.Byte,System.UInt16,System.UInt16)">
+            <summary>
+            Reads the values of discrete inputs from the Modbus device.
+            </summary>
+            <param name="deviceId">The device ID.</param>
+            <param name="startAddress">The starting address of the inputs.</param>
+            <param name="count">The number of inputs to read.</param>
+            <returns>An array of boolean values representing the state of the discrete inputs or a <see langword="null"/> if the read operation fails.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown when <paramref name="deviceId"/>, <paramref name="startAddress"/>, or <paramref name="count"/> is out of range.</exception>
+        </member>
+        <member name="M:Iot.Device.Modbus.Client.ModbusClient.ReadInputRegisters(System.Byte,System.UInt16,System.UInt16)">
+            <summary>
+            Reads the values of input registers from the Modbus device.
+            </summary>
+            <param name="deviceId">The device ID.</param>
+            <param name="startAddress">The starting address of the registers.</param>
+            <param name="count">The number of registers to read.</param>
+            <returns>An array of <see cref="T:System.Int16"/> values representing the values of the holding registers or a <see langword="null"/> if the read operation fails.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown when <paramref name="deviceId"/>, <paramref name="startAddress"/>, or <paramref name="count"/> is out of range.</exception>
+        </member>
+        <member name="M:Iot.Device.Modbus.Client.ModbusClient.ReadCoils(System.Byte,System.UInt16,System.UInt16)">
+            <summary>
+            Reads the values of coils from the Modbus device.
+            </summary>
+            <param name="deviceId">The device ID.</param>
+            <param name="startAddress">The starting address of the coils.</param>
+            <param name="count">The number of coils to read.</param>
+            <returns>An array of boolean values representing the state of the coils or a <see langword="null"/> if the read operation fails.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown when <paramref name="deviceId"/>, <paramref name="startAddress"/>, or <paramref name="count"/> is out of range.</exception>
+        </member>
+        <member name="M:Iot.Device.Modbus.Client.ModbusClient.ReadHoldingRegisters(System.Byte,System.UInt16,System.UInt16)">
+            <summary>
+            Reads the values of holding registers from the Modbus device.
+            </summary>
+            <param name="deviceId">The device ID.</param>
+            <param name="startAddress">The starting address of the registers.</param>
+            <param name="count">The number of registers to read.</param>
+            <returns>An array of <see cref="T:System.Int16"/> values representing the values of the holding registers or a <see langword="null"/> if the read operation fails.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown when <paramref name="deviceId"/>, <paramref name="startAddress"/>, or <paramref name="count"/> is out of range.</exception>
+        </member>
+        <member name="M:Iot.Device.Modbus.Client.ModbusClient.WriteSingleCoil(System.Byte,System.UInt16,System.Boolean)">
+            <summary>
+            Writes a single coil value to the Modbus device.
+            </summary>
+            <param name="deviceId">The device ID.</param>
+            <param name="startAddress">The address of the coil to write.</param>
+            <param name="value">The value to write to the coil.</param>
+            <returns><see langword="true"/> if the write operation is successful, <see langword="false"/> otherwise.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown when <paramref name="deviceId"/> or <paramref name="startAddress"/> is out of range.</exception>
+        </member>
+        <member name="M:Iot.Device.Modbus.Client.ModbusClient.WriteSingleRegister(System.Byte,System.UInt16,System.Int16)">
+            <summary>
+            Writes a single register value to the Modbus device.
+            </summary>
+            <param name="deviceId">The device ID.</param>
+            <param name="startAddress">The address of the register to write.</param>
+            <param name="value">The value to write to the register.</param>
+            <returns><see langword="true"/> if the write operation is successful, <see langword="false"/> otherwise.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown when <paramref name="deviceId"/> or <paramref name="startAddress"/> is out of range.</exception>
+        </member>
+        <member name="M:Iot.Device.Modbus.Client.ModbusClient.WriteMultipleCoils(System.Byte,System.UInt16,System.Boolean[])">
+            <summary>
+            Writes multiple coil values to the Modbus device.
+            </summary>
+            <param name="deviceId">The device ID.</param>
+            <param name="startAddress">The starting address of the coils to write.</param>
+            <param name="values">An array of boolean values representing the state of the coils to write.</param>
+            <returns><see langword="true"/> if the write operation is successful, <see langword="false"/> otherwise.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown when <paramref name="deviceId"/> or <paramref name="startAddress"/> is out of range, or the length of the <paramref name="values"/> array is zero.</exception>
+        </member>
+        <member name="M:Iot.Device.Modbus.Client.ModbusClient.WriteMultipleRegisters(System.Byte,System.UInt16,System.UInt16[])">
+            <summary>
+            Writes multiple register values to the Modbus device.
+            </summary>
+            <param name="deviceId">The device ID.</param>
+            <param name="startAddress">The starting address of the registers to write.</param>
+            <param name="values">An array of ushort values representing the values to write to the registers.</param>
+            <returns><see langword="true"/> if the write operation is successful, <see langword="false"/> otherwise.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown when <paramref name="deviceId"/> or <paramref name="startAddress"/> is out of range, or the length of the <paramref name="values"/> array is zero.</exception>
+        </member>
+        <member name="M:Iot.Device.Modbus.Client.ModbusClient.Raw(System.Byte,Iot.Device.Modbus.FunctionCode,System.Byte[])">
+            <summary>
+            Sends a raw Modbus request to the device and returns the raw response.
+            </summary>
+            <param name="deviceId">The device ID.</param>
+            <param name="function">The Modbus function code.</param>
+            <param name="data">The raw data of the request.</param>
+            <returns>The raw data of the response or a <see langword="null"/> if the operation fails.</returns>
+        </member>
+        <member name="T:Iot.Device.Modbus.Consts">
+            <summary>
+            Contains protocol constant definitions.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.Consts.MinDeviceId">
+            <summary>
+            The lowest accepted device id on RTU protocol.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.Consts.MaxDeviceId">
+            <summary>
+            The highest accepted device id on RTU protocol.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.Consts.MinAddress">
+            <summary>
+            The lowest address.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.Consts.MaxAddress">
+            <summary>
+            The highest address.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.Consts.MinCount">
+            <summary>
+            The lowest number of requested data sets.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.Consts.MaxCoilCountRead">
+            <summary>
+            The highest number of requested coils to read.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.Consts.MaxCoilCountWrite">
+            <summary>
+            The highest number of requested coils to write.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.Consts.MaxRegisterCountRead">
+            <summary>
+            The highest number of requested registers to read.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.Consts.MaxRegisterCountWrite">
+            <summary>
+            The highest number of requested registers to write.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.Consts.ErrorMask">
+            <summary>
+            The Bit-Mask to filter the error-state of a Modbus response.
+            </summary>
+        </member>
+        <member name="T:Iot.Device.Modbus.FunctionCode">
+            <summary>
+            Modbus function codes.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.FunctionCode.ReadCoils">
+            <summary>
+            Read coils (Fn 1). 读​​线圈.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.FunctionCode.ReadDiscreteInputs">
+            <summary>
+            Read discrete inputs (Fn 2). 读​​离散​量​输入.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.FunctionCode.ReadHoldingRegisters">
+            <summary>
+            Reads holding registers (Fn 3). 读​​保持寄存器.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.FunctionCode.ReadInputRegisters">
+            <summary>
+            Reads input registers (Fn 4). 读​​输入​寄存器.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.FunctionCode.WriteSingleCoil">
+            <summary>
+            Writes a single coil (Fn 5). 写​​单​个​线圈.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.FunctionCode.WriteSingleRegister">
+            <summary>
+            Writes a single register (Fn 6). 写​​单​个​寄存器.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.FunctionCode.Diagnostics">
+            <summary>
+            Diagnostic (Fn 8). 诊断功能.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.FunctionCode.WriteMultipleCoils">
+            <summary>
+            Writes multiple coils (Fn 15). 写​​多个​线圈.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.FunctionCode.WriteMultipleRegisters">
+            <summary>
+            Writes multiple registers (Fn 16). 写​多个​寄存器.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.FunctionCode.EncapsulatedInterface">
+            <summary>
+            Tunnels service requests and method invocations (Fn 43). 封装接口(MEI).
+            </summary>
+        </member>
+        <member name="T:Iot.Device.Modbus.ErrorCode">
+            <summary>
+            Modbus error code.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.ErrorCode.NoError">
+            <summary>
+            No error. 无错误.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.ErrorCode.IllegalFunction">
+            <summary>
+            Illegal function. 不​支持​接收​的​功能​码。​要​确认​原始​功能​码，​请​从​返回​值​中​减去​0x80.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.ErrorCode.IllegalDataAddress">
+            <summary>
+            Illegal data address. 请求​尝试​访问​的​地址​无效.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.ErrorCode.IllegalDataValue">
+            <summary>
+            Illegal data value. 请求​包含​不​正确​的​数据.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.ErrorCode.SlaveDeviceFailure">
+            <summary>
+            Slva device failure. 尝试​处理​请求​时​发生​不可​恢复​的​错误. 这​是​一个​常见​异常​码，​表示​请求​有效，​但从​设备​无法​执行​该​请求.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.ErrorCode.Acknowledge">
+            <summary>
+            Acknoledge. 确认。已经接受请求，并且正在处理这个请求，但是需要长持续时间进行这些操作. 返回这个响应防止在客户机（或主站）中发生超时错误.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.ErrorCode.SlaveDeviceBusy">
+            <summary>
+            Slave device busy. 从属设备忙.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.ErrorCode.NegativeAcknowledge">
+            <summary>
+            Negative acknowledge. 对于功能 13 或 14（此器件不支持的）请求，将返回此代码.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.ErrorCode.MemoryParityError">
+            <summary>
+            Memory parity error. 存储奇偶性差错.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.ErrorCode.GatewayPath">
+            <summary>
+            Gateway path. 不可用网关路径.
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Modbus.ErrorCode.GatewayTargetDevice">
+            <summary>
+            Gateway target device. 网关目标设备无响应.
+            </summary>
+        </member>
+        <member name="T:Iot.Device.Modbus.FunctionCodeExtensions">
+            <summary>
+            Extensions for <see cref="T:Iot.Device.Modbus.FunctionCode"/>.
+            </summary>
+        </member>
+        <member name="M:Iot.Device.Modbus.FunctionCodeExtensions.ToNameString(Iot.Device.Modbus.FunctionCode)">
+            <summary>
+            Returns the enum member name for a <see cref="T:Iot.Device.Modbus.FunctionCode"/> value.
+            </summary>
+            <param name="value">The <see cref="T:Iot.Device.Modbus.FunctionCode"/> value.</param>
+            <returns>The name of the enum member if defined; otherwise, the numeric value as a string.</returns>
+        </member>
+        <member name="T:Iot.Device.Modbus.Port">
+            <summary>
+            Represents a serial port used for Modbus communication.
+            </summary>
+        </member>
+        <member name="P:Iot.Device.Modbus.Port.Logger">
+            <summary>
+            Gets or sets the logger instance.
+            </summary>
+        </member>
+        <member name="M:Iot.Device.Modbus.Port.Format(System.Byte[])">
+            <summary>
+            Formats an array of bytes as a string.
+            </summary>
+            <param name="buffer">The buffer to format.</param>
+            <returns>A string representation of the buffer in hexadecimal format.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Port.#ctor(System.String,System.Int32,System.IO.Ports.Parity,System.Int32,System.IO.Ports.StopBits,System.Int32,System.IO.Ports.SerialMode)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Iot.Device.Modbus.Port"/> class with the specified port settings.
+            </summary>
+            <param name="portName">The name of the serial port.</param>
+            <param name="baudRate">The baud rate.</param>
+            <param name="parity">The parity.</param>
+            <param name="dataBits">The number of data bits.</param>
+            <param name="stopBits">The number of stop bits.</param>
+            <param name="receivedBytesThreshold">The number of bytes required before the <see cref="M:Iot.Device.Modbus.Port.DataReceived(System.Int32)"/> event is fired. Default is 1.</param>
+            <param name="mode">The mode of serial port, default is <see cref="F:System.IO.Ports.SerialMode.RS485"/>.</param>
+        </member>
+        <member name="M:Iot.Device.Modbus.Port.#ctor(System.IO.Ports.SerialPort,System.Int32,System.IO.Ports.SerialMode)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Iot.Device.Modbus.Port"/> class with the specified serial port.
+            </summary>
+            <param name="port">The serial port.</param>
+            <param name="receivedBytesThreshold">The number of bytes required before the <see cref="M:Iot.Device.Modbus.Port.DataReceived(System.Int32)"/> event is fired. Default is 1.</param>
+            <param name="mode">The mode of serial port, default is <see cref="F:System.IO.Ports.SerialMode.RS485"/>.</param>
+        </member>
+        <member name="P:Iot.Device.Modbus.Port.PortName">
+            <summary>
+            Gets the name of the serial port.
+            </summary>
+        </member>
+        <member name="P:Iot.Device.Modbus.Port.IsOpen">
+            <summary>
+            Gets a value indicating whether the serial port is open.
+            </summary>
+        </member>
+        <member name="P:Iot.Device.Modbus.Port.ReadTimeout">
+            <summary>
+            Gets or sets the read timeout in milliseconds.
+            </summary>
+        </member>
+        <member name="P:Iot.Device.Modbus.Port.WriteTimeout">
+            <summary>
+            Gets or sets the write timeout in milliseconds.
+            </summary>
+        </member>
+        <member name="P:Iot.Device.Modbus.Port.ReadBufferSize">
+            <summary>
+            Gets or sets the size of the input buffer.
+            </summary>
+        </member>
+        <member name="P:Iot.Device.Modbus.Port.WriteBufferSize">
+            <summary>
+            Gets or sets the size of the output buffer.
+            </summary>
+        </member>
+        <member name="M:Iot.Device.Modbus.Port.CheckOpen">
+            <summary>
+            Checks if the serial port is open and opens it if necessary.
+            </summary>
+            <returns><see langword="true"/> if the serial port is open, <see langword="false"/> otherwise.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Port.DataReceivedHandler(System.Object,System.IO.Ports.SerialDataReceivedEventArgs)">
+            <summary>
+            Event handler for the serial port <see cref="E:System.IO.Ports.SerialPort.DataReceived"/> event.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="args">The <see cref="T:System.IO.Ports.SerialDataReceivedEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:Iot.Device.Modbus.Port.DataReceived(System.Int32)">
+            <summary>
+            Event handler for the DataReceived event.
+            </summary>
+            <param name="bytesToRead">The number of bytes available to read.</param>
+        </member>
+        <member name="M:Iot.Device.Modbus.Port.DataRead">
+            <summary>
+            Reads a single byte of data from the serial port.
+            </summary>
+            <returns>The byte read from the serial port.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Port.DataRead(System.Int32)">
+            <summary>
+            Reads a specified number of bytes from the serial port.
+            </summary>
+            <param name="length">The number of bytes to read.</param>
+            <returns>An array of bytes read from the serial port.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Port.DataWrite(System.Byte)">
+            <summary>
+            Writes a single byte of data to the serial port.
+            </summary>
+            <param name="value">The byte to write to the serial port.</param>
+        </member>
+        <member name="M:Iot.Device.Modbus.Port.DataWrite(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Writes a specified number of bytes to the serial port.
+            </summary>
+            <param name="buffer">The buffer that contains the data to write.</param>
+            <param name="offset">The zero-based byte offset in the buffer at which to begin writing.</param>
+            <param name="count">The number of bytes to write.</param>
+            <returns><see langword="true"/> if the write operation was successful, <see langword="false"/> otherwise.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Port.Dispose(System.Boolean)">
+            <summary>
+            Releases the unmanaged resources used by the serial port and optionally releases the managed resources.
+            </summary>
+            <param name="disposing"><see langword="true"/> to release both managed and unmanaged resources; <see langword="false"/> to release only unmanaged resources.</param>
+        </member>
+        <member name="M:Iot.Device.Modbus.Port.Dispose">
+            <summary>
+            Releases the resources used by the serial port.
+            </summary>
+        </member>
+        <member name="M:Iot.Device.Modbus.Protocol.Response.SetBit(System.Byte,System.Byte,System.Boolean)">
+            <summary>
+            Sets the bit at the specified index to the specified value.
+            </summary>
+            <param name="data">The data.</param>
+            <param name="index">From left to right: 8,7,6,5,4,3,2,1.</param>
+            <param name="flag">True: 1 and false: 0.</param>
+            <returns>The byte set.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">Index must be between 1 and 8.</exception>
+        </member>
+        <member name="T:Iot.Device.Modbus.Server.ModbusServer">
+            <summary>
+            Modbus server implementation that listens for Modbus requests and handles them.
+            </summary>
+        </member>
+        <member name="M:Iot.Device.Modbus.Server.ModbusServer.#ctor(Iot.Device.Modbus.Server.ModbusDevice,System.String,System.Int32,System.IO.Ports.Parity,System.Int32,System.IO.Ports.StopBits,System.IO.Ports.SerialMode)">
+            <summary>
+            Initializes a new instance of the ModbusServer class with the specified Modbus device and communication parameters.
+            </summary>
+            <param name="device">The Modbus device.</param>
+            <param name="portName">The name of the serial port.</param>
+            <param name="baudRate">The baud rate.</param>
+            <param name="parity">The parity.</param>
+            <param name="dataBits">The number of data bits.</param>
+            <param name="stopBits">The stop bits.</param>
+            <param name="mode">The mode of serial port, default is RS485.</param>
+        </member>
+        <member name="M:Iot.Device.Modbus.Server.ModbusServer.#ctor(Iot.Device.Modbus.Server.ModbusDevice,System.IO.Ports.SerialPort,System.IO.Ports.SerialMode)">
+            <summary>
+            Initializes a new instance of the ModbusServer class with the specified Modbus device and serial port.
+            </summary>
+            <param name="device">The Modbus device.</param>
+            <param name="port">The serial port.</param>
+            <param name="mode">The mode of serial port, default is RS485.</param>
+        </member>
+        <member name="M:Iot.Device.Modbus.Server.ModbusServer.StartListening">
+            <summary>
+            Starts listening for Modbus requests on the server.
+            </summary>
+        </member>
+        <member name="M:Iot.Device.Modbus.Server.ModbusServer.DataReceived(System.Int32)">
+            <summary>
+            Called when data is received on the serial port.
+            </summary>
+            <param name="bytesToRead">The number of bytes to read from the serial port.</param>
+        </member>
+        <member name="T:Iot.Device.Modbus.Server.ModbusDevice">
+            <summary>
+            Represents a Modbus device.
+            </summary>
+        </member>
+        <member name="M:Iot.Device.Modbus.Server.ModbusDevice.#ctor(System.Byte)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Iot.Device.Modbus.Server.ModbusDevice"/> class with the specified device ID.
+            </summary>
+            <param name="id">The device ID. Default is the minimum device ID.</param>
+        </member>
+        <member name="P:Iot.Device.Modbus.Server.ModbusDevice.DeviceId">
+            <summary>
+            Gets or sets the device ID.
+            </summary>
+        </member>
+        <member name="M:Iot.Device.Modbus.Server.ModbusDevice.TryReadDiscreteInput(System.UInt16,System.Boolean@)">
+            <summary>
+            Tries to read a discrete input from the Modbus device at the specified address.
+            </summary>
+            <param name="address">The address of the discrete input.</param>
+            <param name="value">When this method returns, contains the value of the discrete input if the read operation succeeds, or false if the read operation fails.</param>
+            <returns>True if the read operation succeeds; otherwise, false.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Server.ModbusDevice.TryReadInputRegister(System.UInt16,System.Int16@)">
+            <summary>
+            Tries to read an input register from the Modbus device at the specified address.
+            </summary>
+            <param name="address">The address of the input register.</param>
+            <param name="value">When this method returns, contains the value of the input register if the read operation succeeds, or zero if the read operation fails.</param>
+            <returns>True if the read operation succeeds; otherwise, false.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Server.ModbusDevice.TryReadCoil(System.UInt16,System.Boolean@)">
+            <summary>
+            Tries to read a coil from the Modbus device at the specified address.
+            </summary>
+            <param name="address">The address of the coil.</param>
+            <param name="value">When this method returns, contains the value of the coil if the read operation succeeds, or false if the read operation fails.</param>
+            <returns>True if the read operation succeeds; otherwise, false.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Server.ModbusDevice.TryWriteCoil(System.UInt16,System.Boolean)">
+            <summary>
+            Tries to write a coil to the Modbus device at the specified address.
+            </summary>
+            <param name="address">The address of the coil.</param>
+            <param name="value">The value to write to the coil.</param>
+            <returns>True if the write operation succeeds; otherwise, false.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Server.ModbusDevice.TryReadHoldingRegister(System.UInt16,System.Int16@)">
+            <summary>
+            Tries to read a holding register from the Modbus device at the specified address.
+            </summary>
+            <param name="address">The address of the holding register.</param>
+            <param name="value">When this method returns, contains the value of the holding register if the read operation succeeds, or zero if the read operation fails.</param>
+            <returns>True if the read operation succeeds; otherwise, false.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Server.ModbusDevice.TryWriteHoldingRegister(System.UInt16,System.Int16)">
+            <summary>
+            Tries to write a holding register to the Modbus device at the specified address.
+            </summary>
+            <param name="address">The address of the holding register.</param>
+            <param name="value">The value to write to the holding register.</param>
+            <returns>True if the write operation succeeds; otherwise, false.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Server.ModbusDevice.BeginRead">
+            <summary>
+            Method called before reading from the Modbus device.
+            </summary>
+        </member>
+        <member name="M:Iot.Device.Modbus.Server.ModbusDevice.EndRead">
+            <summary>
+            Method called after reading from the Modbus device.
+            </summary>
+        </member>
+        <member name="M:Iot.Device.Modbus.Server.ModbusDevice.BeginWrite">
+            <summary>
+            Method called before writing to the Modbus device.
+            </summary>
+        </member>
+        <member name="M:Iot.Device.Modbus.Server.ModbusDevice.EndWrite">
+            <summary>
+            Method called after writing to the Modbus device.
+            </summary>
+        </member>
+        <member name="M:Iot.Device.Modbus.Server.ModbusDevice.GetDiscreteInput(System.UInt16,Iot.Device.Modbus.Structures.DiscreteInput@)">
+            <summary>
+            Gets a discrete input from the Modbus device at the specified address.
+            </summary>
+            <param name="address">The address of the discrete input.</param>
+            <param name="discreteInput">When this method returns, contains the discrete input if the read operation succeeds, or null if the read operation fails.</param>
+            <returns>True if the read operation succeeds; otherwise, false.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Server.ModbusDevice.GetInputRegister(System.UInt16,Iot.Device.Modbus.Structures.InputRegister@)">
+            <summary>
+            Gets an input register from the Modbus device at the specified address.
+            </summary>
+            <param name="address">The address of the input register.</param>
+            <param name="inputRegister">When this method returns, contains the input register if the read operation succeeds, or null if the read operation fails.</param>
+            <returns>True if the read operation succeeds; otherwise, false.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Server.ModbusDevice.GetCoil(System.UInt16,Iot.Device.Modbus.Structures.Coil@)">
+            <summary>
+            Gets a coil from the Modbus device at the specified address.
+            </summary>
+            <param name="address">The address of the coil.</param>
+            <param name="coil">When this method returns, contains the coil if the read operation succeeds, or null if the read operation fails.</param>
+            <returns>True if the read operation succeeds; otherwise, false.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Server.ModbusDevice.SetCoil(System.UInt16,System.Boolean)">
+            <summary>
+            Sets a coil on the Modbus device at the specified address.
+            </summary>
+            <param name="address">The address of the coil.</param>
+            <param name="value">The value to set for the coil.</param>
+            <returns>True if the write operation succeeds; otherwise, false.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Server.ModbusDevice.GetHoldingRegister(System.UInt16,Iot.Device.Modbus.Structures.HoldingRegister@)">
+            <summary>
+            Gets a holding register from the Modbus device at the specified address.
+            </summary>
+            <param name="address">The address of the holding register.</param>
+            <param name="holdingRegister">When this method returns, contains the holding register if the read operation succeeds, or null if the read operation fails.</param>
+            <returns>True if the read operation succeeds; otherwise, false.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Server.ModbusDevice.SetHoldingRegister(System.UInt16,System.Int16)">
+            <summary>
+            Sets a holding register on the Modbus device at the specified address.
+            </summary>
+            <param name="address">The address of the holding register.</param>
+            <param name="value">The value to set for the holding register.</param>
+            <returns>True if the write operation succeeds; otherwise, false.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Structures.ModbusObject.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Iot.Device.Modbus.Structures.ModbusObject.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="M:Iot.Device.Modbus.Util.Crc16.Calculate(System.Byte[])">
+            <summary>
+            Calculates the checksum (CRC16) for a 16-bit array.
+            </summary>
+            <param name="array">The array.</param>
+            <returns>The CRC16 checksum. [0] = low byte, [1] = high byte.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Util.Crc16.Calculate(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Calculates the checksum (CRC16) for a 16-bit array.
+            </summary>
+            <param name="array">The array.</param>
+            <param name="start">Starting position.</param>
+            <param name="length">Length.</param>
+            <returns>The CRC16 checksum. [0] = low byte, [1] = high byte.</returns>
+        </member>
+        <member name="T:Iot.Device.Modbus.Util.BoolConverter">
+            <summary>
+            Provides utility methods for converting boolean values to and from Modbus-specific formats.
+            </summary>
+        </member>
+        <member name="M:Iot.Device.Modbus.Util.BoolConverter.From(System.UInt32)">
+            <summary>
+            Converts an unsigned 32-bit integer value to a boolean value.
+            </summary>
+            <param name="value">The unsigned 32-bit integer value to convert.</param>
+            <returns>A boolean value.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Util.BoolConverter.From(System.Int32)">
+            <summary>
+            Converts an integer value to a boolean value.
+            </summary>
+            <param name="value">The integer value to convert.</param>
+            <returns>A boolean value.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Util.BoolConverter.From(System.UInt16)">
+            <summary>
+            Converts an unsigned 16-bit integer to a boolean value.
+            </summary>
+            <param name="value">The unsigned 16-bit integer to convert.</param>
+            <returns>A boolean value.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Util.BoolConverter.From(System.Int16)">
+            <summary>
+            Converts a short value to a boolean value.
+            </summary>
+            <param name="value">The short value to convert.</param>
+            <returns>A boolean value.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Util.BoolConverter.ToUInt16(System.Boolean)">
+            <summary>
+            Converts a boolean value to an unsigned 16-bit integer.
+            </summary>
+            <param name="value">The boolean value to convert.</param>
+            <returns>An unsigned 16-bit integer.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Util.BoolConverter.ToInt16(System.Boolean)">
+            <summary>
+            Converts a boolean value to a short value.
+            </summary>
+            <param name="value">The boolean value to convert.</param>
+            <returns>A short value.</returns>
+        </member>
+        <member name="T:Iot.Device.Modbus.Util.Int16Converter">
+            <summary>
+            Provides utility methods for converting between different data types and Modbus-specific formats.
+            </summary>
+        </member>
+        <member name="M:Iot.Device.Modbus.Util.Int16Converter.From(System.Byte[],System.Int32)">
+            <summary>
+            Converts an array of bytes to an array of unsigned 16-bit integers.
+            </summary>
+            <param name="values">The array of bytes to convert.</param>
+            <param name="count">The number of bytes to convert. If -1, all bytes will be converted.</param>
+            <returns>An array of unsigned 16-bit integers.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Util.Int16Converter.ToBytes(System.UInt16[])">
+            <summary>
+            Converts an array of unsigned 16-bit integers to an array of bytes.
+            </summary>
+            <param name="values">The array of unsigned 16-bit integers to convert.</param>
+            <returns>An array of bytes.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Util.Int16Converter.From(System.Int32)">
+            <summary>
+            Converts an integer value to an unsigned 16-bit integer.
+            </summary>
+            <param name="value">The integer value to convert.</param>
+            <returns>An unsigned 16-bit integer.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Util.Int16Converter.ToInt32(System.UInt16)">
+            <summary>
+            Converts an unsigned 16-bit integer to an integer value.
+            </summary>
+            <param name="value">The unsigned 16-bit integer to convert.</param>
+            <returns>An integer value.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Util.Int16Converter.From(System.TimeSpan)">
+            <summary>
+            Converts a <see cref="T:System.TimeSpan"/> value to an unsigned 16-bit integer containing the hours and minutes.
+            </summary>
+            <param name="time">The <see cref="T:System.TimeSpan"/> value to convert.</param>
+            <returns>An unsigned 16-bit integer containing the hours and minutes.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Util.Int16Converter.ToTime(System.UInt16)">
+            <summary>
+            Converts an unsigned 16-bit integer containing the hours and minutes to a <see cref="T:System.TimeSpan"/> value.
+            </summary>
+            <param name="value">The unsigned 16-bit integer containing the hours and minutes to convert.</param>
+            <returns>A <see cref="T:System.TimeSpan"/> value.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Util.Int16Converter.From(System.DateTime)">
+            <summary>
+            Converts a <see cref="T:System.DateTime"/> value to an array of unsigned 16-bit integers.
+            </summary>
+            <param name="dt">The <see cref="T:System.DateTime"/> value to convert.</param>
+            <returns>An array of unsigned 16-bit integers.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Util.Int16Converter.ToDateTime(System.UInt16[])">
+            <summary>
+            Converts an array of unsigned 16-bit integers to a <see cref="T:System.DateTime"/> value.
+            </summary>
+            <param name="values">The array of unsigned 16-bit integers to convert.</param>
+            <returns>A <see cref="T:System.DateTime"/> value.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Util.Int16Converter.From(System.String,System.Int32,System.Int32)">
+            <summary>
+            Converts a string to an array of unsigned 16-bit integers.
+            </summary>
+            <param name="s">The string to convert.</param>
+            <param name="start">The starting position in the string.</param>
+            <param name="length">The number of characters to convert. If -1, all characters from the starting position will be converted.</param>
+            <returns>An array of unsigned 16-bit integers.</returns>
+        </member>
+        <member name="M:Iot.Device.Modbus.Util.Int16Converter.ToString(System.UInt16[])">
+            <summary>
+            Converts an array of unsigned 16-bit integers to a string.
+            </summary>
+            <param name="values">The array of unsigned 16-bit integers to convert.</param>
+            <returns>A string.</returns>
+        </member>
+        <member name="T:System.ByteExtension">
+            <summary>
+            Provides extension methods for the <see cref="T:System.Byte"/> class.
+            </summary>
+        </member>
+        <member name="M:System.ByteExtension.JudgReverse(System.Byte[])">
+            <summary>
+            Reverses the order of bytes in the specified byte array.
+            </summary>
+            <param name="bytes">The byte array to reverse.</param>
+        </member>
+    </members>
+</doc>
